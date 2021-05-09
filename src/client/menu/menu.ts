@@ -13,8 +13,6 @@ interface ICMenu {
 
 export class CoraUI {
     static Config = {
-        mode: 0, // dark: 0, white: 1
-
         colors: {
             dark: {
                 header: [16, 16, 16, 255]
@@ -28,10 +26,8 @@ export class CoraUI {
         x: 0.140,
         y: 0.175,
         width: 0.225,
-        
         bottomHeight: 0.029,
         headerHeight: 0.095,
-
         glare: true,
 
     }
@@ -45,10 +41,6 @@ export class CoraUI {
         name: '',
         glare: false,
         buttons: [],
-    }
-
-    constructor() {
-  
     }
 
     public static drawHeader() {        
@@ -71,7 +63,6 @@ export class CoraUI {
     }
 
     public static drawButtons() {
- 
         if (this.Menu.Opened == true) {
 
             for (let i = 0; i < this.CurrentMenu.buttons.length; i++) {
@@ -81,23 +72,17 @@ export class CoraUI {
                 DrawRect(this.Config.x, this.Config.y + (this.Config.bottomHeight + 0.0055) + (this.Config.bottomHeight * (i + 1) + 0.033) , this.Config.width, this.Config.bottomHeight + 0.0011, color[0], color[1], color[2], color[3])
                 DrawText2(this.CurrentMenu.buttons[i].name, this.Config.x - 0.1075, this.Config.y + (this.Config.bottomHeight * (i + 1) + 0.0565), 0.265, 0, [colorText[0], colorText[1], colorText[2], colorText[3]])
             }
-
         } 
     }
 
     public static controlMenu() {
         if (IsControlJustPressed(0, 27)) {
-            console.log("up", this.Menu.IndexButton)
-
             if (this.Menu.IndexButton <= 0) {
                 this.Menu.IndexButton = this.CurrentMenu.buttons.length - 1
             } else {
                 this.Menu.IndexButton --
             }
-
         } else if (IsControlJustPressed(0, 173)) {
-            console.log("down", this.Menu.IndexButton)
-
             if (this.Menu.IndexButton >= this.CurrentMenu.buttons.length -1 ) {
                 this.Menu.IndexButton = 0
             } else {
@@ -119,8 +104,6 @@ export class CoraUI {
     public static openMenu(obj: ICMenu) {
         this.Menu.Opened = true;
         this.CurrentMenu = obj;
-        console.log(this.Menu.IndexButton)
-
         this.drawMenu();
     }
 
