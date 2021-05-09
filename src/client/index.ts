@@ -11,7 +11,7 @@ setTick(() => {
     if (IsControlJustPressed(0, 38)) {
         CoraUI.openMenu({
             name: 'Menu F5',
-            subtitle: "",
+            subtitle: "Zeubi",
             glare: true,
             buttons: [
                 { name: 'Am', onClick: () => console.log(15641)},
