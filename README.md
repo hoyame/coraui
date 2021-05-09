@@ -15,13 +15,9 @@ CoraUI.openMenu({
     { name: 'Am', onClick: () => {
       console.log('sitterlan amonaguyem')
     }},
-    { name: 'Am', onClick: () => console.log(54154)},
-    { name: 'Am', onClick: () => null},
-    { name: 'Am', onClick: () => null},
+    { name: 'zebi', onClick: () => CoraUI.openSubmenu('zebi')},
+    { name: 'amona', onClick: () => CoraUI.openSubmenu('amona')},
     { name: 'Close menu', onClick: () => CoraUI.closeMenu()},
-    { name: 'Am', onClick: () => null},
-    { name: 'Am', onClick: () => null},
-    { name: 'Am', onClick: () => null},
   ],
   submenus: {
     'zebi': {
