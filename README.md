@@ -29,7 +29,7 @@ CoraUI.openMenu({
       subtitle: "",
       glare: true, 
       buttons: [
-        { name: 'subMenu Zebi', onClick: () => null},
+        { name: 'Zebi', onClick: () => null},
       ],
     },
 
@@ -38,7 +38,7 @@ CoraUI.openMenu({
       subtitle: "",
       glare: true, 
       buttons: [
-        { name: 'subMenu Amonaguyem', onClick: () => null},
+        { name: 'Amonaguyem', onClick: () => null},
       ],
     }
  }
