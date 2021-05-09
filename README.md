@@ -4,6 +4,8 @@ Library written in typescript to create menus on FiveM
 # Example 
 Create menu
 ```ts
+import { CoraUI } from "./menu/menu"
+
 CoraUI.openMenu({
   name: 'Menu F5',
   glare: true,
