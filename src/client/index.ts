@@ -11,15 +11,15 @@ setTick(() => {
     if (IsControlJustPressed(0, 38)) {
         CoraUI.openMenu({
             name: 'Menu F5',
-            subtitle: "Zeubi",
+            subtitle: "Menu intéractions",
             glare: true,
             buttons: [
-                { name: 'Am', rightText: ">>>", onClick: () => console.log(15641)},
-                { name: 'Am', rightText: ">", onClick: () => {
+                { name: 'Am', onClick: () => console.log(15641)},
+                { name: 'Am 2', onClick: () => {
                     console.log('sitterlan amonaguyem')
                 }},
-                { name: 'zebi', rightText: "ZEBIIIIIIII", onClick: () => CoraUI.openSubmenu('zebi')},
-                { name: 'amona', rightText: "a", onClick: () => CoraUI.openSubmenu('amona')},
+                { name: 'Test', onClick: () => CoraUI.openSubmenu('zebi')},
+                { name: 'Test 2', onClick: () => CoraUI.openSubmenu('amona')},
                 { name: 'Close menu', rightText: "~g~100 000 $",onClick: () => CoraUI.closeMenu()},
             ],
             submenus: {
