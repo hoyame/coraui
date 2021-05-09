@@ -8,6 +8,7 @@ import { CoraUI } from "./menu/menu"
 
 CoraUI.openMenu({
   name: 'Menu F5',
+  subtitle: "Menu d'intéractions",
   glare: true,
   buttons: [
     { name: 'Am', onClick: () => console.log(15641)},

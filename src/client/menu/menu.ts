@@ -7,6 +7,7 @@ interface IButtons {
 
 interface ICMenu {
     name: string;
+    subtitle: string;
     glare: boolean;
     buttons: IButtons[]
 }
@@ -39,6 +40,7 @@ export class CoraUI {
 
     static CurrentMenu: ICMenu = {
         name: '',
+        subtitle: "",
         glare: false,
         buttons: [],
     }
@@ -57,7 +59,7 @@ export class CoraUI {
             
             DrawText2(this.CurrentMenu.name, this.Config.x - 0.095, this.Config.y - 0.024, 0.75, 1, [255, 255, 255, 255])
             DrawRect(this.Config.x, this.Config.y + (this.Config.headerHeight - 0.03065) , this.Config.width, this.Config.bottomHeight + 0.0030, this.Config.colors.dark.header[0], this.Config.colors.dark.header[1], this.Config.colors.dark.header[2], 230)
-            DrawText2('Actions disponibles', this.Config.x - 0.1075, this.Config.y + (this.Config.headerHeight - 0.042), 0.265, 0, [255, 255, 255, 255])
+            DrawText2(this.CurrentMenu.subtitle, this.Config.x - 0.1075, this.Config.y + (this.Config.headerHeight - 0.042), 0.265, 0, [255, 255, 255, 255])
             DrawText2((this.Menu.IndexButton + 1) + '/' + (this.CurrentMenu.buttons.length), this.Config.x + 0.093, this.Config.y + (this.Config.headerHeight - 0.041), 0.265, 0, [255, 255, 255, 255])
         }
     }
@@ -111,6 +113,7 @@ export class CoraUI {
         this.Menu.IndexButton = 0
         this.CurrentMenu = {
             name: '',
+            subtitle: '',
             glare: false,
             buttons: [],
         }

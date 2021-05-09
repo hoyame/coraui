@@ -8,6 +8,7 @@ setImmediate(() => {
 
     CoraUI.openMenu({
         name: 'Menu F5',
+        subtitle: "",
         glare: true,
         buttons: [
             { name: 'Am', onClick: () => console.log(15641)},
@@ -31,6 +32,7 @@ setTick(() => {
         console.log("openemenu")
         CoraUI.openMenu({
             name: 'Menu E',
+            subtitle: "Bite",
             glare: true,
             buttons: [
                 { name: 'Am', onClick: () => {
