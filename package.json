@@ -1,0 +1,22 @@
+{
+  "name": "coraui",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --mode production --config client.config.js",
+    "watch": "webpack --mode development --watch true --config client.config.js"
+  },
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "@citizenfx/client": "^2.0.3923-1",
+    "@citizenfx/server": "^2.0.3923-1",
+    "@types/node": "^15.0.2"
+  },
+  "devDependencies": {
+    "ts-loader": "^6.0.2",
+    "typescript": "^3.7.4",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.2"
+  }
+}
