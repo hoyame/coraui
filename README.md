@@ -24,3 +24,5 @@ CoraUI.openMenu({
   ]
 })
 ```
+# Prewiew
+![unknown](https://user-images.githubusercontent.com/56686012/117587277-58fbd880-b11d-11eb-919e-4f2814582e06.png)
