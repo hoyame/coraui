@@ -9,6 +9,7 @@ interface ICMenu {
     name: string;
     subtitle: string;
     glare: boolean;
+    submenus?: any;
     buttons: IButtons[]
 }
 
@@ -34,8 +35,18 @@ export class CoraUI {
     }
 
     static Menu = {
-        Opened: true,
+        Opened: false,
+        MenuOpened: '',
+        submenu: [false, ''],
         IndexButton: 0
+    }
+
+    static Temp: ICMenu = {
+        name: '',
+        subtitle: "",
+        glare: false,
+        buttons: [],
+        submenus: {}
     }
 
     static CurrentMenu: ICMenu = {
@@ -43,6 +54,7 @@ export class CoraUI {
         subtitle: "",
         glare: false,
         buttons: [],
+        submenus: {}
     }
 
     public static drawHeader() {        
@@ -92,6 +104,12 @@ export class CoraUI {
             }
         } else if (IsControlJustPressed(0, 201)) {
             this.CurrentMenu.buttons[this.Menu.IndexButton].onClick();
+        } else if (IsControlJustPressed(0, 202)) {
+            if (this.Menu.submenu[0] == true) {
+                this.closeSubMenu()
+            } else {
+                this.closeMenu()
+            }
         }
     }
 
@@ -102,20 +120,43 @@ export class CoraUI {
             this.controlMenu();
         }
     }
+
+    public static openSubmenu(name: string) {
+        this.Menu.IndexButton = 0
+        this.CurrentMenu = this.CurrentMenu.submenus[name];
+        this.Menu.submenu = [true, name]
+    }
+
+    public static closeSubMenu() {
+        this.Menu.IndexButton = 0
+        this.CurrentMenu = this.Temp;
+        this.Menu.submenu = [false, ')']
+    }
     
     public static openMenu(obj: ICMenu) {
         this.Menu.Opened = true;
         this.CurrentMenu = obj;
+        this.Temp = obj
         this.drawMenu();
     }
 
     public static resetMenu() {
         this.Menu.IndexButton = 0
+
+        this.Temp = {
+            name: '',
+            subtitle: '',
+            glare: false,
+            buttons: [],
+            submenus: {}
+        }
+
         this.CurrentMenu = {
             name: '',
             subtitle: '',
             glare: false,
             buttons: [],
+            submenus: {}
         }
     }
 
