@@ -22,7 +22,26 @@ CoraUI.openMenu({
     { name: 'Am', onClick: () => null},
     { name: 'Am', onClick: () => null},
     { name: 'Am', onClick: () => null},
-  ]
+  ],
+  submenus: {
+    'zebi': {
+      name: 'Submenu Zebi F5',
+      subtitle: "",
+      glare: true, 
+      buttons: [
+        { name: 'subMenu Zebi', onClick: () => null},
+      ],
+    },
+
+    'amona': {
+      name: 'Submenu Amonaguyem F5',
+      subtitle: "",
+      glare: true, 
+      buttons: [
+        { name: 'subMenu Amonaguyem', onClick: () => null},
+      ],
+    }
+ }
 })
 ```
 # Prewiew
