@@ -2,7 +2,7 @@
 Library written in typescript to create menus on FiveM
 
 # Example 
-Create menu
+## Create menu
 ```ts
 import { CoraUI } from "./menu/menu"
 
