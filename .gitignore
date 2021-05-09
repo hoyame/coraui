@@ -1,0 +1,13 @@
+.vscode
+dist/
+node_modules/
+package-lock.json
+yarn-error.log
+yarn.lock
+*.zip
+*.txt
+temp/*
+logs/*
+logs2/
+docs/
+ui/
