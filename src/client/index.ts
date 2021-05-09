@@ -19,7 +19,7 @@ setTick(() => {
                     console.log('sitterlan amonaguyem')
                 }},
                 { name: 'zebi', onClick: () => CoraUI.openSubmenu('zebi')},
-                { name: 'amona', onClick: () => CoraUI.openSubmenu('amona')},
+                { name: 'amona', rightText: "Right lab", onClick: () => CoraUI.openSubmenu('amona')},
                 { name: 'Close menu', onClick: () => CoraUI.closeMenu()},
             ],
             submenus: {
