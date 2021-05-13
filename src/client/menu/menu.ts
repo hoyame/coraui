@@ -42,6 +42,7 @@ export class CoraUI {
             Dictionary: "commonmenu",
             TexturesUnchecked: "shop_box_blank",
             TexturesChecked: "shop_box_tick",
+            TexturesCheckedOver: "shop_box_tickb"
         }
     }
 
@@ -95,9 +96,11 @@ export class CoraUI {
                     init = false
                 }
 
-                let color = i == this.Menu.IndexButton ? [255, 255, 255, 255] : [16, 16, 16, 120] ; 
+                // 255, 255, 255 white 
+                let color = i == this.Menu.IndexButton ? [255, 255, 255, 255] : [16, 16, 16, 120]; 
                 let colorText = i == this.Menu.IndexButton ? [0, 0, 0, 255] : [255, 255, 255, 255]; 
                 let checkboxColor = i == this.Menu.IndexButton ? [0, 0, 0, 255] : [255, 255, 255, 255]; 
+                let checkboxColor2 = [255, 255, 255, 255]; 
                 let lenghtforright2 = this.CurrentMenu.buttons[i].rightText || "";
                 let lenghtforright = lenghtforright2.length || 0;
 
@@ -109,9 +112,15 @@ export class CoraUI {
 
                 if (this.CurrentMenu.buttons[i].checkbox) {
                     {
-                        this.CurrentMenu.buttons[i].statusCheckbox 
-                        ? RenderSprite(this.Config.SettingsCheckbox.Dictionary, this.Config.SettingsCheckbox.TexturesChecked, this.Config.x + 0.0940, this.Config.y + (this.Config.bottomHeight + 0.0055) + (this.Config.bottomHeight * (i + 1) + 0.018) , this.Config.width - 0.2078, this.Config.bottomHeight + 0.0014, 0, checkboxColor[0], checkboxColor[1], checkboxColor[2], checkboxColor[3])
-                        : RenderSprite(this.Config.SettingsCheckbox.Dictionary, this.Config.SettingsCheckbox.TexturesUnchecked, this.Config.x + 0.0940, this.Config.y + (this.Config.bottomHeight + 0.0055) + (this.Config.bottomHeight * (i + 1) + 0.018) , this.Config.width - 0.2078, this.Config.bottomHeight + 0.0014, 90, checkboxColor[0], checkboxColor[1], checkboxColor[2], checkboxColor[3])                    
+                        if (this.CurrentMenu.buttons[i].statusCheckbox ) {
+                            if (i == this.Menu.IndexButton) {
+                                RenderSprite(this.Config.SettingsCheckbox.Dictionary, this.Config.SettingsCheckbox.TexturesCheckedOver, this.Config.x + 0.0940, this.Config.y + (this.Config.bottomHeight + 0.0055) + (this.Config.bottomHeight * (i + 1) + 0.018) , this.Config.width - 0.2078, this.Config.bottomHeight + 0.0014, 0, 255, 255, 255, 255)
+                            } else {                                
+                                RenderSprite(this.Config.SettingsCheckbox.Dictionary, this.Config.SettingsCheckbox.TexturesChecked, this.Config.x + 0.0940, this.Config.y + (this.Config.bottomHeight + 0.0055) + (this.Config.bottomHeight * (i + 1) + 0.018) , this.Config.width - 0.2078, this.Config.bottomHeight + 0.0014, 0, 255, 255, 255, 255)
+                            }
+                        } else {
+                            RenderSprite(this.Config.SettingsCheckbox.Dictionary, this.Config.SettingsCheckbox.TexturesUnchecked, this.Config.x + 0.0940, this.Config.y + (this.Config.bottomHeight + 0.0055) + (this.Config.bottomHeight * (i + 1) + 0.018) , this.Config.width - 0.2078, this.Config.bottomHeight + 0.0014, 90, checkboxColor[0], checkboxColor[1], checkboxColor[2], checkboxColor[3])                    
+                        }
                     }
                 }
 
