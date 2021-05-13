@@ -18,11 +18,6 @@ setTick(() => {
                 { name: 'Checkbox', checkbox: (checked1: boolean) => {
                     console.log('boolean', checked1)
                 }},
-
-                { name: 'Checkbox test 2', checkbox: (checked2: boolean) => {
-                    console.log('boolean', checked2)
-                }},
-
                 { name: 'Am 2', onClick: () => {
                     console.log('sitterlan amonaguyem')
                 }},

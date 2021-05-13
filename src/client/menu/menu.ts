@@ -96,11 +96,9 @@ export class CoraUI {
                     init = false
                 }
 
-                // 255, 255, 255 white 
                 let color = i == this.Menu.IndexButton ? [255, 255, 255, 255] : [16, 16, 16, 120]; 
                 let colorText = i == this.Menu.IndexButton ? [0, 0, 0, 255] : [255, 255, 255, 255]; 
-                let checkboxColor = i == this.Menu.IndexButton ? [0, 0, 0, 255] : [255, 255, 255, 255]; 
-                let checkboxColor2 = [255, 255, 255, 255]; 
+                let checkboxColor = i == this.Menu.IndexButton ? [0, 0, 0, 255] : [255, 255, 255, 255];
                 let lenghtforright2 = this.CurrentMenu.buttons[i].rightText || "";
                 let lenghtforright = lenghtforright2.length || 0;
 
