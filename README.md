@@ -12,6 +12,9 @@ CoraUI.openMenu({
   glare: true,
   buttons: [
       { name: 'Am', onClick: () => console.log(15641)},
+      { name: 'Checkbox', checkbox: (checked1: boolean) => {
+          console.log('boolean', checked1)
+      }},
       { name: 'Am 2', onClick: () => {
           console.log('sitterlan amonaguyem')
       }},
@@ -41,7 +44,7 @@ CoraUI.openMenu({
 })
 ```
 # Prewiew
-![unknown](https://media.discordapp.net/attachments/836192469359394856/841092906399301632/unknown.png)
+![unknown](https://cdn.discordapp.com/attachments/836192469359394856/842524671185911818/unknown.png)
 
 # Discord 
 https://discord.gg/nkQS6ZRxJW

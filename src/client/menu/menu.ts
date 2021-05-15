@@ -1,9 +1,12 @@
 import { DrawText2 } from "../core/utils"
+import { RenderSprite } from "../core/utils"
 
 interface IButtons {
     name: string;
     rightText?: string;
     onClick?: any;
+    checkbox?: any;
+    statusCheckbox?: boolean;
 }
 
 interface ICMenu {
@@ -13,6 +16,8 @@ interface ICMenu {
     submenus?: any;
     buttons: IButtons[]
 }
+
+let init = true
 
 export class CoraUI {
     static Config = {
@@ -33,6 +38,12 @@ export class CoraUI {
         headerHeight: 0.095,
         glare: true,
 
+        SettingsCheckbox: {
+            Dictionary: "commonmenu",
+            TexturesUnchecked: "shop_box_blank",
+            TexturesChecked: "shop_box_tick",
+            TexturesCheckedOver: "shop_box_tickb"
+        }
     }
 
     static Menu = {
@@ -80,8 +91,14 @@ export class CoraUI {
     public static drawButtons() {
         if (this.Menu.Opened == true) {
             for (let i = 0; i < this.CurrentMenu.buttons.length; i++) {
-                let color = i == this.Menu.IndexButton ? [255, 255, 255, 255] : [16, 16, 16, 120] ; 
+                if (this.CurrentMenu.buttons[i].checkbox !== null && init) {
+                    this.CurrentMenu.buttons[i].statusCheckbox = false
+                    init = false
+                }
+
+                let color = i == this.Menu.IndexButton ? [255, 255, 255, 255] : [16, 16, 16, 120]; 
                 let colorText = i == this.Menu.IndexButton ? [0, 0, 0, 255] : [255, 255, 255, 255]; 
+                let checkboxColor = i == this.Menu.IndexButton ? [0, 0, 0, 255] : [255, 255, 255, 255];
                 let lenghtforright2 = this.CurrentMenu.buttons[i].rightText || "";
                 let lenghtforright = lenghtforright2.length || 0;
 
@@ -90,6 +107,21 @@ export class CoraUI {
                 if (this.CurrentMenu.buttons[i].rightText) {
                     DrawText2(this.CurrentMenu.buttons[i].rightText || "", this.Config.x + 0.102 - (lenghtforright/1000), this.Config.y + (this.Config.bottomHeight * (i + 1) + 0.0565), 0.235, 0, [colorText[0], colorText[1], colorText[2], colorText[3]], true, 2)
                 }
+
+                if (this.CurrentMenu.buttons[i].checkbox) {
+                    {
+                        if (this.CurrentMenu.buttons[i].statusCheckbox ) {
+                            if (i == this.Menu.IndexButton) {
+                                RenderSprite(this.Config.SettingsCheckbox.Dictionary, this.Config.SettingsCheckbox.TexturesCheckedOver, this.Config.x + 0.0940, this.Config.y + (this.Config.bottomHeight + 0.0055) + (this.Config.bottomHeight * (i + 1) + 0.018) , this.Config.width - 0.2078, this.Config.bottomHeight + 0.0014, 0, 255, 255, 255, 255)
+                            } else {                                
+                                RenderSprite(this.Config.SettingsCheckbox.Dictionary, this.Config.SettingsCheckbox.TexturesChecked, this.Config.x + 0.0940, this.Config.y + (this.Config.bottomHeight + 0.0055) + (this.Config.bottomHeight * (i + 1) + 0.018) , this.Config.width - 0.2078, this.Config.bottomHeight + 0.0014, 0, 255, 255, 255, 255)
+                            }
+                        } else {
+                            RenderSprite(this.Config.SettingsCheckbox.Dictionary, this.Config.SettingsCheckbox.TexturesUnchecked, this.Config.x + 0.0940, this.Config.y + (this.Config.bottomHeight + 0.0055) + (this.Config.bottomHeight * (i + 1) + 0.018) , this.Config.width - 0.2078, this.Config.bottomHeight + 0.0014, 90, checkboxColor[0], checkboxColor[1], checkboxColor[2], checkboxColor[3])                    
+                        }
+                    }
+                }
+
             }
         } 
     }
@@ -108,7 +140,12 @@ export class CoraUI {
                 this.Menu.IndexButton ++
             }
         } else if (IsControlJustPressed(0, 201)) {
-            this.CurrentMenu.buttons[this.Menu.IndexButton].onClick();
+            if (this.CurrentMenu.buttons[this.Menu.IndexButton].onClick) {
+                this.CurrentMenu.buttons[this.Menu.IndexButton].onClick()
+            } else if (this.CurrentMenu.buttons[this.Menu.IndexButton].checkbox) {
+                this.CurrentMenu.buttons[this.Menu.IndexButton].statusCheckbox = !this.CurrentMenu.buttons[this.Menu.IndexButton].statusCheckbox
+                this.CurrentMenu.buttons[this.Menu.IndexButton].checkbox(this.CurrentMenu.buttons[this.Menu.IndexButton].statusCheckbox)
+            }
         } else if (IsControlJustPressed(0, 202)) {
             if (this.Menu.submenu[0] == true) {
                 this.closeSubMenu()
