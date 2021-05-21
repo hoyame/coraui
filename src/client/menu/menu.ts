@@ -7,6 +7,7 @@ interface IButtons {
     onClick?: any;
     checkbox?: any;
     statusCheckbox?: boolean;
+    video?: any;
 }
 
 interface ICMenu {
@@ -106,6 +107,10 @@ export class CoraUI {
                 DrawText2(this.CurrentMenu.buttons[i].name, this.Config.x - 0.1075, this.Config.y + (this.Config.bottomHeight * (i + 1) + 0.0565), 0.265, 0, [colorText[0], colorText[1], colorText[2], colorText[3]], false, 2)
                 if (this.CurrentMenu.buttons[i].rightText) {
                     DrawText2(this.CurrentMenu.buttons[i].rightText || "", this.Config.x + 0.102 - (lenghtforright/1000), this.Config.y + (this.Config.bottomHeight * (i + 1) + 0.0565), 0.235, 0, [colorText[0], colorText[1], colorText[2], colorText[3]], true, 2)
+                }
+
+                if (this.CurrentMenu.buttons[i].video) {
+                    
                 }
 
                 if (this.CurrentMenu.buttons[i].checkbox) {
