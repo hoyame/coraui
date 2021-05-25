@@ -133,13 +133,23 @@ export class CoraUI {
                 }
 
                 if (this.CurrentMenu.buttons[i].slider) {
-                    const slider = this.CurrentMenu.buttons[i].slider || []
-                    const index = this.CurrentMenu.buttons[i].indexSlider || 0
+                    const slider = this.CurrentMenu.buttons[i].slider || [];
+                    const index = this.CurrentMenu.buttons[i].indexSlider || 0;
                     const lenght = slider[index] || "";
 
+                    let LengthToGive = (lenght.length/1000)
+                    if (lenght.length >= 9) {
+                        LengthToGive = (lenght.length/350)
+                    }
+
+                    let LengthToGive2 = (lenght.length/1000)
+                    if (lenght.length >= 9) {
+                        LengthToGive2 = (lenght.length/600)
+                    }
                     
-                    DrawSprite("commonmenu", "arrowleft",  this.Config.x + 0.0775 - (lenght.length/1000), this.Config.y + (this.Config.bottomHeight * (i + 1) + 0.0675), .009, .018, 0.0, colorText[0], colorText[1], colorText[2], colorText[3])
-                    DrawText2(slider[index] || "", this.Config.x + 0.0935 - (lenght.length/1000), this.Config.y + (this.Config.bottomHeight * (i + 1) + 0.0570), 0.235, 0, [colorText[0], colorText[1], colorText[2], colorText[3]], true, 2)
+
+                    DrawSprite("commonmenu", "arrowleft",  this.Config.x + 0.0775 - LengthToGive, this.Config.y + (this.Config.bottomHeight * (i + 1) + 0.0675), .009, .018, 0.0, colorText[0], colorText[1], colorText[2], colorText[3])
+                    DrawText2(slider[index] || "", this.Config.x + 0.0935 - LengthToGive2, this.Config.y + (this.Config.bottomHeight * (i + 1) + 0.0570), 0.235, 0, [colorText[0], colorText[1], colorText[2], colorText[3]], true, 2)
                     DrawSprite("commonmenu", "arrowright",  this.Config.x + 0.1045, this.Config.y + (this.Config.bottomHeight * (i + 1) + 0.0675), .009, .018, 0.0, colorText[0], colorText[1], colorText[2], colorText[3])
                 }
             }
@@ -227,7 +237,7 @@ export class CoraUI {
             this.drawHeader();
             this.drawButtons();
             this.controlMenu();
-            this.DrawPercentagePanel("Pipi, caca");
+         //   this.DrawPercentagePanel("Pipi, caca");
         }
     }
 
