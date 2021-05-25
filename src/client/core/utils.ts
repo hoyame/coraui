@@ -18,10 +18,11 @@ export const DrawText2 = (content: string, x: number, y: number, scale: number, 
 }
 
 export const RenderSprite = (TextureDictionary: string, TextureName: string, X: number, Y: number, Width: number, Height: number, Heading: number, R: number, G: number, B: number, A: number) => {
-    X: X || 0/1920
-    Y: Y || 0/1080
-    Width: Width || 0/1920
-    Height: Height || 0/1080
+    var [Xe, Ye] = GetScreenResolution()
+    X: X || 0/Xe
+    Y: Y || 0/Ye
+    Width: Width || 0/Xe
+    Height: Height || 0/Ye
     if (!HasStreamedTextureDictLoaded(TextureDictionary)) {
         RequestStreamedTextureDict(TextureDictionary, true)
     }
