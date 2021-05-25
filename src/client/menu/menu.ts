@@ -7,7 +7,6 @@ interface IButtons {
     onClick?: any;
     checkbox?: any;
     statusCheckbox?: boolean;
-    video?: any;
 }
 
 interface ICMenu {
@@ -44,6 +43,12 @@ export class CoraUI {
             TexturesUnchecked: "shop_box_blank",
             TexturesChecked: "shop_box_tick",
             TexturesCheckedOver: "shop_box_tickb"
+        },
+
+        SettingsPercentagePanel: {
+            Text: {
+                Middle: { X: 215.5, Y: 15, Scale: 0.35 },
+            },
         }
     }
 
@@ -97,20 +102,16 @@ export class CoraUI {
                     init = false
                 }
 
-                let color = i == this.Menu.IndexButton ? [255, 255, 255, 255] : [16, 16, 16, 120]; 
-                let colorText = i == this.Menu.IndexButton ? [0, 0, 0, 255] : [255, 255, 255, 255]; 
-                let checkboxColor = i == this.Menu.IndexButton ? [0, 0, 0, 255] : [255, 255, 255, 255];
-                let lenghtforright2 = this.CurrentMenu.buttons[i].rightText || "";
-                let lenghtforright = lenghtforright2.length || 0;
+                const color = i == this.Menu.IndexButton ? [255, 255, 255, 255] : [16, 16, 16, 120];
+                const colorText = i == this.Menu.IndexButton ? [0, 0, 0, 255] : [255, 255, 255, 255]; 
+                const checkboxColor = i == this.Menu.IndexButton ? [0, 0, 0, 255] : [255, 255, 255, 255];
+                const lenghtforright2 = this.CurrentMenu.buttons[i].rightText || "";
+                const lenghtforright = lenghtforright2.length || 0;
 
                 DrawRect(this.Config.x, this.Config.y + (this.Config.bottomHeight + 0.0055) + (this.Config.bottomHeight * (i + 1) + 0.033) , this.Config.width, this.Config.bottomHeight + 0.0011, color[0], color[1], color[2], color[3])
                 DrawText2(this.CurrentMenu.buttons[i].name, this.Config.x - 0.1075, this.Config.y + (this.Config.bottomHeight * (i + 1) + 0.0565), 0.265, 0, [colorText[0], colorText[1], colorText[2], colorText[3]], false, 2)
                 if (this.CurrentMenu.buttons[i].rightText) {
                     DrawText2(this.CurrentMenu.buttons[i].rightText || "", this.Config.x + 0.102 - (lenghtforright/1000), this.Config.y + (this.Config.bottomHeight * (i + 1) + 0.0565), 0.235, 0, [colorText[0], colorText[1], colorText[2], colorText[3]], true, 2)
-                }
-
-                if (this.CurrentMenu.buttons[i].video) {
-                    
                 }
 
                 if (this.CurrentMenu.buttons[i].checkbox) {
@@ -129,6 +130,25 @@ export class CoraUI {
 
             }
         } 
+    }
+
+    public static DrawPercentagePanel(TextHeader?: string) {
+        const colorText = [255, 255, 255, 255]; 
+        const lenghtforPercentage2 = TextHeader || "Percentage";
+        const lenghtforPercentage = lenghtforPercentage2.length || 0;
+        const percentage = 25;
+
+        const divcise = (percentage / 0.0321) / 10000
+        const percentage1 = this.Config.x - divcise
+        const percentage2 = (percentage/100) - 0.2
+
+        DrawRect(this.Config.x, this.Config.y + 0.2935, this.Config.width - 0.4500, this.Config.bottomHeight + 0.0294, 0, 0, 0, 105); // background
+        DrawRect(this.Config.x, this.Config.y + 0.3055, this.Config.width - 0.4320, this.Config.bottomHeight - 0.0200, 0, 0, 0, 120); // UnHovered (dark)
+        DrawRect(percentage1, this.Config.y + 0.3055, percentage2, this.Config.bottomHeight - 0.0200, 255, 255, 255, 255); // Hovered (white)
+
+        DrawText2(TextHeader || "Percentage", this.Config.x - 0.0040 - (lenghtforPercentage/1000),this.Config.y + 0.2700, this.Config.SettingsPercentagePanel.Text.Middle.Scale, 6, [colorText[0], colorText[1], colorText[2], colorText[3]], false, 2);
+        DrawText2("0%", this.Config.x - 0.1045,this.Config.y + 0.2730, this.Config.SettingsPercentagePanel.Text.Middle.Scale, 6, [colorText[0], colorText[1], colorText[2], colorText[3]], false, 2);
+        DrawText2("100%", this.Config.x + 0.0870,this.Config.y + 0.2730, this.Config.SettingsPercentagePanel.Text.Middle.Scale, 6, [colorText[0], colorText[1], colorText[2], colorText[3]], false, 2);
     }
 
     public static controlMenu() {
@@ -165,6 +185,7 @@ export class CoraUI {
             this.drawHeader();
             this.drawButtons();
             this.controlMenu();
+            this.DrawPercentagePanel("Pipi, caca");
         }
     }
 
