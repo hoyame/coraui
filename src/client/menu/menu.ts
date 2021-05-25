@@ -7,6 +7,8 @@ interface IButtons {
     onClick?: any;
     checkbox?: any;
     statusCheckbox?: boolean;
+    slider?: Array<string>;
+    indexSlider?: number;
 }
 
 interface ICMenu {
@@ -14,7 +16,7 @@ interface ICMenu {
     subtitle: string;
     glare: boolean;
     submenus?: any;
-    buttons: IButtons[]
+    buttons: IButtons[];
 }
 
 let init = true
@@ -50,7 +52,7 @@ export class CoraUI {
         Opened: false,
         MenuOpened: '',
         submenu: [false, ''],
-        IndexButton: 0
+        IndexButton: 0,
     }
 
     static Temp: ICMenu = {
@@ -96,32 +98,41 @@ export class CoraUI {
                     init = false
                 }
 
-                let color = i == this.Menu.IndexButton ? [255, 255, 255, 255] : [16, 16, 16, 120]; 
-                let colorText = i == this.Menu.IndexButton ? [0, 0, 0, 255] : [255, 255, 255, 255]; 
-                let checkboxColor = i == this.Menu.IndexButton ? [0, 0, 0, 255] : [255, 255, 255, 255];
-                let lenghtforright2 = this.CurrentMenu.buttons[i].rightText || "";
-                let lenghtforright = lenghtforright2.length || 0;
+                const color = i == this.Menu.IndexButton ? [255, 255, 255, 255] : [16, 16, 16, 120]; 
+                const colorText = i == this.Menu.IndexButton ? [0, 0, 0, 255] : [255, 255, 255, 255]; 
+                const checkboxColor = i == this.Menu.IndexButton ? [0, 0, 0, 255] : [255, 255, 255, 255];
 
                 DrawRect(this.Config.x, this.Config.y + (this.Config.bottomHeight + 0.0055) + (this.Config.bottomHeight * (i + 1) + 0.033) , this.Config.width, this.Config.bottomHeight + 0.0011, color[0], color[1], color[2], color[3])
                 DrawText2(this.CurrentMenu.buttons[i].name, this.Config.x - 0.1075, this.Config.y + (this.Config.bottomHeight * (i + 1) + 0.0565), 0.265, 0, [colorText[0], colorText[1], colorText[2], colorText[3]], false, 2)
+                
                 if (this.CurrentMenu.buttons[i].rightText) {
-                    DrawText2(this.CurrentMenu.buttons[i].rightText || "", this.Config.x + 0.102 - (lenghtforright/1000), this.Config.y + (this.Config.bottomHeight * (i + 1) + 0.0565), 0.235, 0, [colorText[0], colorText[1], colorText[2], colorText[3]], true, 2)
+                    const lenght = this.CurrentMenu.buttons[i].rightText || "";
+
+                    DrawText2(this.CurrentMenu.buttons[i].rightText || "", this.Config.x + 0.102 - (lenght.length/1000), this.Config.y + (this.Config.bottomHeight * (i + 1) + 0.0565), 0.235, 0, [colorText[0], colorText[1], colorText[2], colorText[3]], true, 2)
                 }
 
                 if (this.CurrentMenu.buttons[i].checkbox) {
-                    {
-                        if (this.CurrentMenu.buttons[i].statusCheckbox ) {
-                            if (i == this.Menu.IndexButton) {
-                                RenderSprite(this.Config.SettingsCheckbox.Dictionary, this.Config.SettingsCheckbox.TexturesCheckedOver, this.Config.x + 0.0940, this.Config.y + (this.Config.bottomHeight + 0.0055) + (this.Config.bottomHeight * (i + 1) + 0.018) , this.Config.width - 0.2078, this.Config.bottomHeight + 0.0014, 0, 255, 255, 255, 255)
-                            } else {                                
-                                RenderSprite(this.Config.SettingsCheckbox.Dictionary, this.Config.SettingsCheckbox.TexturesChecked, this.Config.x + 0.0940, this.Config.y + (this.Config.bottomHeight + 0.0055) + (this.Config.bottomHeight * (i + 1) + 0.018) , this.Config.width - 0.2078, this.Config.bottomHeight + 0.0014, 0, 255, 255, 255, 255)
-                            }
-                        } else {
-                            RenderSprite(this.Config.SettingsCheckbox.Dictionary, this.Config.SettingsCheckbox.TexturesUnchecked, this.Config.x + 0.0940, this.Config.y + (this.Config.bottomHeight + 0.0055) + (this.Config.bottomHeight * (i + 1) + 0.018) , this.Config.width - 0.2078, this.Config.bottomHeight + 0.0014, 90, checkboxColor[0], checkboxColor[1], checkboxColor[2], checkboxColor[3])                    
+                    if (this.CurrentMenu.buttons[i].statusCheckbox ) {
+                        if (i == this.Menu.IndexButton) {
+                            RenderSprite(this.Config.SettingsCheckbox.Dictionary, this.Config.SettingsCheckbox.TexturesCheckedOver, this.Config.x + 0.0940, this.Config.y + (this.Config.bottomHeight + 0.0055) + (this.Config.bottomHeight * (i + 1) + 0.018) , this.Config.width - 0.2078, this.Config.bottomHeight + 0.0014, 0, 255, 255, 255, 255)
+                        } else {                                
+                            RenderSprite(this.Config.SettingsCheckbox.Dictionary, this.Config.SettingsCheckbox.TexturesChecked, this.Config.x + 0.0940, this.Config.y + (this.Config.bottomHeight + 0.0055) + (this.Config.bottomHeight * (i + 1) + 0.018) , this.Config.width - 0.2078, this.Config.bottomHeight + 0.0014, 0, 255, 255, 255, 255)
                         }
+                    } else {
+                        RenderSprite(this.Config.SettingsCheckbox.Dictionary, this.Config.SettingsCheckbox.TexturesUnchecked, this.Config.x + 0.0940, this.Config.y + (this.Config.bottomHeight + 0.0055) + (this.Config.bottomHeight * (i + 1) + 0.018) , this.Config.width - 0.2078, this.Config.bottomHeight + 0.0014, 90, checkboxColor[0], checkboxColor[1], checkboxColor[2], checkboxColor[3])                    
                     }
                 }
 
+                if (this.CurrentMenu.buttons[i].slider) {
+                    const slider = this.CurrentMenu.buttons[i].slider || []
+                    const index = this.CurrentMenu.buttons[i].indexSlider || 0
+                    const lenght = slider[index] || "";
+
+                    
+                    DrawSprite("commonmenu", "arrowleft",  this.Config.x + 0.0775 - (lenght.length/1000), this.Config.y + (this.Config.bottomHeight * (i + 1) + 0.0675), .009, .018, 0.0, colorText[0], colorText[1], colorText[2], colorText[3])
+                    DrawText2(slider[index] || "", this.Config.x + 0.0935 - (lenght.length/1000), this.Config.y + (this.Config.bottomHeight * (i + 1) + 0.0570), 0.235, 0, [colorText[0], colorText[1], colorText[2], colorText[3]], true, 2)
+                    DrawSprite("commonmenu", "arrowright",  this.Config.x + 0.1045, this.Config.y + (this.Config.bottomHeight * (i + 1) + 0.0675), .009, .018, 0.0, colorText[0], colorText[1], colorText[2], colorText[3])
+                }
             }
         } 
     }
@@ -151,6 +162,34 @@ export class CoraUI {
                 this.closeSubMenu()
             } else {
                 this.closeMenu()
+            }
+        } else if (IsControlJustPressed(0, 174)) {
+            // left
+            if (this.CurrentMenu.buttons[this.Menu.IndexButton].slider) {
+                console.log("left")
+
+                const indexSlider = this.CurrentMenu.buttons[this.Menu.IndexButton].indexSlider || 0
+                const lenghtSlider = this.CurrentMenu.buttons[this.Menu.IndexButton].slider?.length || 0
+
+                if (indexSlider <= 0) {
+                    this.CurrentMenu.buttons[this.Menu.IndexButton].indexSlider = lenghtSlider - 1                   
+                } else {
+                    this.CurrentMenu.buttons[this.Menu.IndexButton].indexSlider = indexSlider - 1
+                }
+        
+            }
+        } else if (IsControlJustPressed(0, 175)) {
+            // right
+            if (this.CurrentMenu.buttons[this.Menu.IndexButton].slider) {
+                console.log("right")
+                const indexSlider = this.CurrentMenu.buttons[this.Menu.IndexButton].indexSlider || 0
+                const lenghtSlider = this.CurrentMenu.buttons[this.Menu.IndexButton].slider?.length || 0
+
+                if (indexSlider >= lenghtSlider - 1) {
+                    this.CurrentMenu.buttons[this.Menu.IndexButton].indexSlider = 0
+                } else {
+                    this.CurrentMenu.buttons[this.Menu.IndexButton].indexSlider = indexSlider + 1
+                }
             }
         }
     }

@@ -22,7 +22,8 @@ setTick(() => {
                     console.log('sitterlan amonaguyem')
                 }},
                 { name: 'Test', onClick: () => CoraUI.openSubmenu('zebi')},
-                { name: 'Test 2', onClick: () => CoraUI.openSubmenu('amona')},
+                { name: 'Test 2', slider: ['Aege', 'Fdef', 'Mophn']},
+                { name: 'Test 2', slider: ['Aege', 'Fdef', 'Mophn']},
                 { name: 'Close menu', rightText: "~g~100 000 $",onClick: () => CoraUI.closeMenu()},
             ],
             submenus: {
