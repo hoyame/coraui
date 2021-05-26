@@ -19,10 +19,11 @@ setTick(() => {
                     console.log('boolean', checked1)
                 }},
                 { name: 'Am 2', onClick: () => {
-                    console.log('sitterlan amonaguyem')
+                    let [x, y, z] = GetEntityCoords(PlayerPedId(), false)
+                    NetworkResurrectLocalPlayer(x, y, z, 255, false, false)
                 }},
                 { name: 'Test', onClick: () => CoraUI.openSubmenu('zebi')},
-                { name: 'Test 2', slider: ['Aege', 'Fdef', 'Mophn', "ABCDEFGHI", "ABCDEFGHIJKL", "Yo mec je mange des queues"]},
+                { name: 'Test 2', slider: ['Aege', 'Fdef', 'Mophn', "ABCDEFGHI", "ABCDEFGHIJKL", "Yo mec je mange des bananes"]},
                 { name: 'Close menu', rightText: "~g~100 000 $",onClick: () => CoraUI.closeMenu()},
             ],
             submenus: {
@@ -47,5 +48,8 @@ setTick(() => {
         })
     }
 })
+
+
+
 
 
