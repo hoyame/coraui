@@ -9,7 +9,9 @@ interface IButtons {
     statusCheckbox?: boolean;
     slider?: Array<string>;
     indexSlider?: number;
+
     indexColorPanel?: number;
+    lenghtColorPanel?: number;
 }
 
 interface ICMenu {
@@ -188,14 +190,15 @@ export class CoraUI {
         } 
     }
 
-    public static DrawColorPanel(Title?: string, Colors?: Array<number>, MinimumIndex?: number, MaximumIndex?: number, ) {
-        const ColorArray = Colors || this.Config.ColoursPanel
-        const [R, G, B, A] = ColorArray
+    public static DrawColorPanel(Title?: string, Colors?: Array<number>, MinimumIndex?: number, MaximumIndex?: number) {
+        const ColorArray = Colors || this.Config.ColoursPanel;
+        this.CurrentMenu.buttons[this.Menu.IndexButton].lenghtColorPanel = ColorArray.length
         const colorText = [255, 255, 255, 255]; 
         const lenghtforTitle2 = Title || "Colors";
         const lenghtforTitle = lenghtforTitle2.length || 0;
+        const indexColorPanel = this.CurrentMenu.buttons[this.Menu.IndexButton].indexColorPanel || 0
 
-        let Maxium = (ColorArray.length > 15) && 15 || ColorArray.length > 15 
+        let MaximumToShow = (ColorArray.length > 15) && 15 || ColorArray.length > 15 
 
         DrawRect(this.Config.x, this.Config.y + 0.2935, this.Config.width - 0.4500, this.Config.bottomHeight + 0.0394, 0, 0, 0, 105); // background
 
@@ -203,10 +206,16 @@ export class CoraUI {
         DrawSprite("commonmenu", "arrowleft",  this.Config.x - 0.1050, this.Config.y + 0.2770, .009, .018, 0.0, colorText[0], colorText[1], colorText[2], colorText[3])
         DrawSprite("commonmenu", "arrowright",  this.Config.x + 0.1050, this.Config.y + 0.2770, .009, .018, 0.0, colorText[0], colorText[1], colorText[2], colorText[3])
         
-        for (let ColorIndex = 1; ColorIndex < Maxium; ColorIndex++) {
+        console.log(this.CurrentMenu.buttons[this.Menu.IndexButton].lenghtColorPanel || 666);
+
+        for (let ColorIndex = 1; ColorIndex < MaximumToShow; ColorIndex++) {
             DrawRect(this.Config.x + (0.0152 * (ColorIndex-1)) - 0.10, this.Config.y + 0.3055, this.Config.bottomHeight - 0.0135, this.Config.bottomHeight, this.Config.ColoursPanel[ColorIndex][0], this.Config.ColoursPanel[ColorIndex][1], this.Config.ColoursPanel[ColorIndex][2], this.Config.ColoursPanel[ColorIndex][3]); // Colors
         }
 
+
+    //    for (var indexCol in ColorArray) {
+    //        console.log(indexCol);
+    //    }
    
     }
 
@@ -260,6 +269,8 @@ export class CoraUI {
             if (this.CurrentMenu.buttons[this.Menu.IndexButton].slider) {
                 console.log("left")
 
+                // Sliders
+
                 const indexSlider = this.CurrentMenu.buttons[this.Menu.IndexButton].indexSlider || 0
                 const lenghtSlider = this.CurrentMenu.buttons[this.Menu.IndexButton].slider?.length || 0
 
@@ -268,12 +279,23 @@ export class CoraUI {
                 } else {
                     this.CurrentMenu.buttons[this.Menu.IndexButton].indexSlider = indexSlider - 1
                 }
+
+                // Color Panel
+
+                const indexColorPanel = this.CurrentMenu.buttons[this.Menu.IndexButton].indexColorPanel || 0
+                const lenghtColorPanel = this.CurrentMenu.buttons[this.Menu.IndexButton].lenghtColorPanel || 0
+                if (indexColorPanel > 1 && indexColorPanel <= lenghtColorPanel) {
+                    this.CurrentMenu.buttons[this.Menu.IndexButton].indexColorPanel =- 1 // remove 1
+                }
         
             }
         } else if (IsControlJustPressed(0, 175)) {
             // right
             if (this.CurrentMenu.buttons[this.Menu.IndexButton].slider) {
                 console.log("right")
+                
+                // Sliders
+
                 const indexSlider = this.CurrentMenu.buttons[this.Menu.IndexButton].indexSlider || 0
                 const lenghtSlider = this.CurrentMenu.buttons[this.Menu.IndexButton].slider?.length || 0
 
@@ -282,6 +304,15 @@ export class CoraUI {
                 } else {
                     this.CurrentMenu.buttons[this.Menu.IndexButton].indexSlider = indexSlider + 1
                 }
+
+                // Color Panel
+
+                const indexColorPanel = this.CurrentMenu.buttons[this.Menu.IndexButton].indexColorPanel || 0
+                const lenghtColorPanel = this.CurrentMenu.buttons[this.Menu.IndexButton].lenghtColorPanel || 0
+                if (indexColorPanel > 1 && indexColorPanel <= lenghtColorPanel) {
+                    this.CurrentMenu.buttons[this.Menu.IndexButton].indexColorPanel =+ 1 // add 1
+                }
+
             }
         }
     }
