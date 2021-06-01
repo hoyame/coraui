@@ -65,9 +65,9 @@ setTick(() => {
                     console.log('boolean', checked1)
                 }},
                 { name: 'Am 2', onClick: () => {
-                    console.log('sitterlan amonaguyem')
-                }},
-  
+                    let [x, y, z] = GetEntityCoords(PlayerPedId(), false)
+                    NetworkResurrectLocalPlayer(x, y, z, 255, false, false)
+                }}, 
                 { name: 'Close menu', rightText: "~g~100 000 $", onClick: () => CoraUI.closeMenu()},
 
                 { name: 'opacity eyes', onPourcentage: () => {
@@ -96,5 +96,8 @@ setTick(() => {
         })
     }
 })
+
+
+
 
 

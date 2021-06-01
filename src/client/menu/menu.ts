@@ -7,11 +7,13 @@ interface IButtons {
     checkbox?: any;
     statusCheckbox?: boolean;
     slider?: Array<string>;
-    indexSlider?: number;
-    
+    indexSlider?: number;   
     onClick?: any;
     onPourcentage?: any;
     valuePourcentage?: any;
+
+    indexColorPanel?: number;
+    lenghtColorPanel?: number;
 }
 
 interface ICMenu {
@@ -54,7 +56,38 @@ export class CoraUI {
             Text: {
                 Middle: { X: 215.5, Y: 15, Scale: 0.35 },
             },
-        }
+        },
+
+        ColoursPanel: [
+            [255, 255, 255, 255], // pure white
+            [240, 240, 240, 255], // white
+            [0, 0, 0, 255], // black
+            [155, 155, 155, 255], // grey
+            [205, 205, 205, 255], // LightGrey
+            [77, 77, 77, 255], // DarkGrey
+            [224, 50, 50, 255], //Red
+            [240, 153, 153, 255], // RedLight
+            [ 112, 25, 25, 255 ], // RedDark
+            [ 93, 182, 229, 255 ], // Blue
+            [ 174, 219, 242, 255 ],// LightBlue
+            [ 47, 92, 115, 255 ],// DarkBlue
+            [ 240, 200, 80, 255 ],// Yellow
+            [ 254, 235, 169, 255 ],// LightYellow
+            [ 126, 107, 41, 255 ],// DarkYellow
+            [ 255, 133, 85, 255 ],// Orange
+            [ 255, 194, 170, 255 ],// LightOrange
+            [ 127, 66, 42, 255 ],// DarkOrange
+            [ 114, 204, 114, 255 ],// Green
+            [ 185, 230, 185, 255 ],// LightGreen
+            [ 57, 102, 57, 255 ],// DarkGreen
+            [ 132, 102, 226, 255 ],// Purple
+            [ 192, 179, 239, 255 ],// LightPurple
+            [ 67, 57, 111, 255 ],// DarkPurple
+            [ 203, 54, 148, 255 ],// Pink
+            [ 255, 215, 0, 255 ],// Gold
+            [ 255,228,181, 255 ],// Moccasin
+            [ 240,230,140, 255 ],// Khaki
+        ]
     }
 
     static Menu = {
@@ -136,13 +169,23 @@ export class CoraUI {
                 }
 
                 if (this.CurrentMenu.buttons[i].slider) {
-                    const slider = this.CurrentMenu.buttons[i].slider || []
-                    const index = this.CurrentMenu.buttons[i].indexSlider || 0
+                    const slider = this.CurrentMenu.buttons[i].slider || [];
+                    const index = this.CurrentMenu.buttons[i].indexSlider || 0;
                     const lenght = slider[index] || "";
 
+                    let LengthToGive = (lenght.length/1000)
+                    if (lenght.length >= 9) {
+                        LengthToGive = (lenght.length/350)
+                    }
+
+                    let LengthToGive2 = (lenght.length/1000)
+                    if (lenght.length >= 9) {
+                        LengthToGive2 = (lenght.length/600)
+                    }
                     
-                    DrawSprite("commonmenu", "arrowleft",  this.Config.x + 0.0775 - (lenght.length/1000), this.Config.y + (this.Config.bottomHeight * (i + 1) + 0.0675), .009, .018, 0.0, colorText[0], colorText[1], colorText[2], colorText[3])
-                    DrawText2(slider[index] || "", this.Config.x + 0.0935 - (lenght.length/1000), this.Config.y + (this.Config.bottomHeight * (i + 1) + 0.0570), 0.235, 0, [colorText[0], colorText[1], colorText[2], colorText[3]], true, 2)
+
+                    DrawSprite("commonmenu", "arrowleft",  this.Config.x + 0.0775 - LengthToGive, this.Config.y + (this.Config.bottomHeight * (i + 1) + 0.0675), .009, .018, 0.0, colorText[0], colorText[1], colorText[2], colorText[3])
+                    DrawText2(slider[index] || "", this.Config.x + 0.0935 - LengthToGive2, this.Config.y + (this.Config.bottomHeight * (i + 1) + 0.0570), 0.235, 0, [colorText[0], colorText[1], colorText[2], colorText[3]], true, 2)
                     DrawSprite("commonmenu", "arrowright",  this.Config.x + 0.1045, this.Config.y + (this.Config.bottomHeight * (i + 1) + 0.0675), .009, .018, 0.0, colorText[0], colorText[1], colorText[2], colorText[3])
                 }
 
@@ -155,6 +198,27 @@ export class CoraUI {
                 }
             }
         } 
+    }
+
+    public static DrawColorPanel(Title?: string, Colors?: Array<number>, MinimumIndex?: number, MaximumIndex?: number) {
+        const ColorArray = Colors || this.Config.ColoursPanel;
+        this.CurrentMenu.buttons[this.Menu.IndexButton].lenghtColorPanel = ColorArray.length
+        const colorText = [255, 255, 255, 255]; 
+        const lenghtforTitle2 = Title || "Colors";
+        const lenghtforTitle = lenghtforTitle2.length || 0;
+        const indexColorPanel = this.CurrentMenu.buttons[this.Menu.IndexButton].indexColorPanel || 0
+
+        let MaximumToShow = (ColorArray.length > 15) && 15 || ColorArray.length > 15
+
+        DrawRect(this.Config.x, this.Config.y + 0.2935, this.Config.width - 0.4500, this.Config.bottomHeight + 0.0394, 0, 0, 0, 105); // background
+
+        DrawText2(Title || "Colors", this.Config.x - 0.0040 - (lenghtforTitle/1000),this.Config.y + 0.2630, this.Config.SettingsPercentagePanel.Text.Middle.Scale, 6, [colorText[0], colorText[1], colorText[2], colorText[3]], false, 2);
+        DrawSprite("commonmenu", "arrowleft",  this.Config.x - 0.1050, this.Config.y + 0.2770, .009, .018, 0.0, colorText[0], colorText[1], colorText[2], colorText[3])
+        DrawSprite("commonmenu", "arrowright",  this.Config.x + 0.1050, this.Config.y + 0.2770, .009, .018, 0.0, colorText[0], colorText[1], colorText[2], colorText[3])
+
+        for (let ColorIndex = 1; ColorIndex < MaximumToShow; ColorIndex++) {
+            DrawRect(this.Config.x + (0.0152 * (ColorIndex-1)) - 0.10, this.Config.y + 0.3055, this.Config.bottomHeight - 0.0135, this.Config.bottomHeight, this.Config.ColoursPanel[ColorIndex][0], this.Config.ColoursPanel[ColorIndex][1], this.Config.ColoursPanel[ColorIndex][2], this.Config.ColoursPanel[ColorIndex][3]); // Colors
+        }
     }
 
     public static DrawPercentagePanel(TextHeader?: string) {
@@ -211,6 +275,8 @@ export class CoraUI {
             if (this.CurrentMenu.buttons[this.Menu.IndexButton].slider) {
                 console.log("left")
 
+                // Sliders
+
                 const indexSlider = this.CurrentMenu.buttons[this.Menu.IndexButton].indexSlider || 0
                 const lenghtSlider = this.CurrentMenu.buttons[this.Menu.IndexButton].slider?.length || 0
 
@@ -219,6 +285,15 @@ export class CoraUI {
                 } else {
                     this.CurrentMenu.buttons[this.Menu.IndexButton].indexSlider = indexSlider - 1
                 }
+
+                // Color Panel
+
+                const indexColorPanel = this.CurrentMenu.buttons[this.Menu.IndexButton].indexColorPanel || 0
+                const lenghtColorPanel = this.CurrentMenu.buttons[this.Menu.IndexButton].lenghtColorPanel || 0
+                if (indexColorPanel > 1 && indexColorPanel <= lenghtColorPanel) {
+                    this.CurrentMenu.buttons[this.Menu.IndexButton].indexColorPanel =- 1 // remove 1
+                }
+        
             }
 
             if (this.CurrentMenu.buttons[this.Menu.IndexButton].onPourcentage) {
@@ -234,6 +309,9 @@ export class CoraUI {
             // right
             if (this.CurrentMenu.buttons[this.Menu.IndexButton].slider) {
                 console.log("right")
+                
+                // Sliders
+
                 const indexSlider = this.CurrentMenu.buttons[this.Menu.IndexButton].indexSlider || 0
                 const lenghtSlider = this.CurrentMenu.buttons[this.Menu.IndexButton].slider?.length || 0
 
@@ -242,6 +320,15 @@ export class CoraUI {
                 } else {
                     this.CurrentMenu.buttons[this.Menu.IndexButton].indexSlider = indexSlider + 1
                 }
+
+                // Color Panel
+
+                const indexColorPanel = this.CurrentMenu.buttons[this.Menu.IndexButton].indexColorPanel || 0
+                const lenghtColorPanel = this.CurrentMenu.buttons[this.Menu.IndexButton].lenghtColorPanel || 0
+                if (indexColorPanel > 1 && indexColorPanel <= lenghtColorPanel) {
+                    this.CurrentMenu.buttons[this.Menu.IndexButton].indexColorPanel =+ 1 // add 1
+                }
+
             }
 
             if (this.CurrentMenu.buttons[this.Menu.IndexButton].onPourcentage) {
@@ -261,6 +348,9 @@ export class CoraUI {
             this.drawHeader();
             this.drawButtons();
             this.controlMenu();
+
+            //this.DrawPercentagePanel("Pipi, caca");
+            //this.DrawColorPanel();
         }
     }
 
