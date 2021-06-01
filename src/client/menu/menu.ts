@@ -1,4 +1,4 @@
-import { DrawRectg, DrawText2 } from "../core/utils"
+import { calc, DrawRectg, DrawText2 } from "../core/utils"
 import { RenderSprite } from "../core/utils"
 
 interface IButtons {
@@ -11,6 +11,7 @@ interface IButtons {
     
     onClick?: any;
     onPourcentage?: any;
+    valuePourcentage?: any;
 }
 
 interface ICMenu {
@@ -146,9 +147,11 @@ export class CoraUI {
                 }
 
                 if (this.CurrentMenu.buttons[i].onPourcentage !== undefined && i == this.Menu.IndexButton) {
-                    console.log(i, this.CurrentMenu.buttons[i].onPourcentage)
-                    this.DrawPercentagePanel("Pipi, caca");
-
+                    if (this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage == undefined) {
+                        this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage = 0
+                    }
+                    
+                    this.DrawPercentagePanel(this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage + "%");
                 }
             }
         } 
@@ -158,7 +161,7 @@ export class CoraUI {
         const colorText = [255, 255, 255, 255]; 
         const lenghtforPercentage2 = TextHeader || "Percentage";
         const lenghtforPercentage = lenghtforPercentage2.length || 0;
-        const percentage = 2;
+        const percentage = this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage || 100;
 
         DrawRect(this.Config.x, this.Config.y + (this.Config.bottomHeight * (this.CurrentMenu.buttons.length + 1) - 0.208) + 0.2935, this.Config.width - 0.4500, this.Config.bottomHeight + 0.0294, 0, 0, 0, 105); // background
         
@@ -166,7 +169,7 @@ export class CoraUI {
         //DrawRect((this.Config.x + 0.0365) / percentage, this.Config.y + (this.Config.bottomHeight * (this.CurrentMenu.buttons.length + 1) - 0.208) + 0.3055, (this.Config.width - 0.4320) / percentage, this.Config.bottomHeight - 0.0200, 255, 255, 255, 255); // UnHovered (dark)
         
         DrawRectg(this.Config.x - 0.103, this.Config.y + (this.Config.bottomHeight * (this.CurrentMenu.buttons.length + 1) - 0.201) + 0.2935, this.Config.width - 0.017, 0.008, [0, 0, 0, 120])
-        DrawRectg(this.Config.x - 0.103, this.Config.y + (this.Config.bottomHeight * (this.CurrentMenu.buttons.length + 1) - 0.201) + 0.2935, (this.Config.width - 0.017) / 5, 0.008, [255, 255, 255, 255])
+        DrawRectg(this.Config.x - 0.103, this.Config.y + (this.Config.bottomHeight * (this.CurrentMenu.buttons.length + 1) - 0.201) + 0.2935, (this.Config.width - 0.017) / calc(percentage), 0.008, [255, 255, 255, 255])
         //
         
         //DrawRectg(this.Config.x, this.Config.y, 0.220, this.Config.bottomHeight - 0.200 - 0.4320, [0, 0, 0, 255])
@@ -203,7 +206,7 @@ export class CoraUI {
             } else {
                 this.closeMenu()
             }
-        } else if (IsControlJustPressed(0, 174)) {
+        } else if (IsControlPressed(0, 174)) {
             // left
             if (this.CurrentMenu.buttons[this.Menu.IndexButton].slider) {
                 console.log("left")
@@ -216,9 +219,18 @@ export class CoraUI {
                 } else {
                     this.CurrentMenu.buttons[this.Menu.IndexButton].indexSlider = indexSlider - 1
                 }
-        
             }
-        } else if (IsControlJustPressed(0, 175)) {
+
+            if (this.CurrentMenu.buttons[this.Menu.IndexButton].onPourcentage) {
+                if (this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage > 0) {
+                    this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage = this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage - 1
+                    this.CurrentMenu.buttons[this.Menu.IndexButton].onPourcentage(this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage)
+                } else {
+                    this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage = this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage = 100
+                    this.CurrentMenu.buttons[this.Menu.IndexButton].onPourcentage(this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage)
+                }
+            }
+        } else if (IsControlPressed(0, 175)) {
             // right
             if (this.CurrentMenu.buttons[this.Menu.IndexButton].slider) {
                 console.log("right")
@@ -233,7 +245,13 @@ export class CoraUI {
             }
 
             if (this.CurrentMenu.buttons[this.Menu.IndexButton].onPourcentage) {
-
+                if (this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage < 100) {
+                    this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage = this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage + 1
+                    this.CurrentMenu.buttons[this.Menu.IndexButton].onPourcentage(this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage)
+                } else {
+                    this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage = this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage = 0
+                    this.CurrentMenu.buttons[this.Menu.IndexButton].onPourcentage(this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage)
+                }
             }
         }
     }
