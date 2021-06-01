@@ -198,25 +198,17 @@ export class CoraUI {
         const lenghtforTitle = lenghtforTitle2.length || 0;
         const indexColorPanel = this.CurrentMenu.buttons[this.Menu.IndexButton].indexColorPanel || 0
 
-        let MaximumToShow = (ColorArray.length > 15) && 15 || ColorArray.length > 15 
+        let MaximumToShow = (ColorArray.length > 15) && 15 || ColorArray.length > 15
 
         DrawRect(this.Config.x, this.Config.y + 0.2935, this.Config.width - 0.4500, this.Config.bottomHeight + 0.0394, 0, 0, 0, 105); // background
 
         DrawText2(Title || "Colors", this.Config.x - 0.0040 - (lenghtforTitle/1000),this.Config.y + 0.2630, this.Config.SettingsPercentagePanel.Text.Middle.Scale, 6, [colorText[0], colorText[1], colorText[2], colorText[3]], false, 2);
         DrawSprite("commonmenu", "arrowleft",  this.Config.x - 0.1050, this.Config.y + 0.2770, .009, .018, 0.0, colorText[0], colorText[1], colorText[2], colorText[3])
         DrawSprite("commonmenu", "arrowright",  this.Config.x + 0.1050, this.Config.y + 0.2770, .009, .018, 0.0, colorText[0], colorText[1], colorText[2], colorText[3])
-        
-        console.log(this.CurrentMenu.buttons[this.Menu.IndexButton].lenghtColorPanel || 666);
 
         for (let ColorIndex = 1; ColorIndex < MaximumToShow; ColorIndex++) {
             DrawRect(this.Config.x + (0.0152 * (ColorIndex-1)) - 0.10, this.Config.y + 0.3055, this.Config.bottomHeight - 0.0135, this.Config.bottomHeight, this.Config.ColoursPanel[ColorIndex][0], this.Config.ColoursPanel[ColorIndex][1], this.Config.ColoursPanel[ColorIndex][2], this.Config.ColoursPanel[ColorIndex][3]); // Colors
         }
-
-
-    //    for (var indexCol in ColorArray) {
-    //        console.log(indexCol);
-    //    }
-   
     }
 
     public static DrawPercentagePanel(TextHeader?: string) {
