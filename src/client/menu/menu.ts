@@ -12,7 +12,10 @@ interface IButtons {
     onPourcentage?: any;
     valuePourcentage?: any;
 
+    onColorPanel?: any;
+    
     indexColorPanel?: number;
+    showColorPanel?: number;
     lenghtColorPanel?: number;
 }
 
@@ -43,6 +46,7 @@ export class CoraUI {
         width: 0.225,
         bottomHeight: 0.029,
         headerHeight: 0.095,
+        colorProps: 0.040,
         glare: true,
 
         SettingsCheckbox: {
@@ -182,7 +186,6 @@ export class CoraUI {
                     if (lenght.length >= 9) {
                         LengthToGive2 = (lenght.length/600)
                     }
-                    
 
                     DrawSprite("commonmenu", "arrowleft",  this.Config.x + 0.0775 - LengthToGive, this.Config.y + (this.Config.bottomHeight * (i + 1) + 0.0675), .009, .018, 0.0, colorText[0], colorText[1], colorText[2], colorText[3])
                     DrawText2(slider[index] || "", this.Config.x + 0.0935 - LengthToGive2, this.Config.y + (this.Config.bottomHeight * (i + 1) + 0.0570), 0.235, 0, [colorText[0], colorText[1], colorText[2], colorText[3]], true, 2)
@@ -196,28 +199,41 @@ export class CoraUI {
                     
                     this.DrawPercentagePanel(this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage + "%");
                 }
+
+                if (this.CurrentMenu.buttons[i].onColorPanel !== undefined && i == this.Menu.IndexButton) {
+                    this.DrawColorPanel();
+                }
             }
         } 
     }
 
     public static DrawColorPanel(Title?: string, Colors?: Array<number>, MinimumIndex?: number, MaximumIndex?: number) {
         const ColorArray = Colors || this.Config.ColoursPanel;
+
+        let ColorAct = []
+
         this.CurrentMenu.buttons[this.Menu.IndexButton].lenghtColorPanel = ColorArray.length
         const colorText = [255, 255, 255, 255]; 
         const lenghtforTitle2 = Title || "Colors";
         const lenghtforTitle = lenghtforTitle2.length || 0;
-        const indexColorPanel = this.CurrentMenu.buttons[this.Menu.IndexButton].indexColorPanel || 0
+        
+        this.CurrentMenu.buttons[this.Menu.IndexButton].showColorPanel = 8
+        const indexAColorPanel = this.CurrentMenu.buttons[this.Menu.IndexButton].indexColorPanel || 0
+        let indexColorPanel = this.CurrentMenu.buttons[this.Menu.IndexButton].showColorPanel || 8
 
-        let MaximumToShow = (ColorArray.length > 15) && 15 || ColorArray.length > 15
 
-        DrawRect(this.Config.x, this.Config.y + 0.2935, this.Config.width - 0.4500, this.Config.bottomHeight + 0.0394, 0, 0, 0, 105); // background
+        let MaximumToShow = (ColorArray.length > 8) && 8 || ColorArray.length > 8
+
+        DrawRect(this.Config.x, this.Config.y + 0.3060, this.Config.width - 0.4500, this.Config.bottomHeight + 0.0650, 0, 0, 0, 105); // background
 
         DrawText2(Title || "Colors", this.Config.x - 0.0040 - (lenghtforTitle/1000),this.Config.y + 0.2630, this.Config.SettingsPercentagePanel.Text.Middle.Scale, 6, [colorText[0], colorText[1], colorText[2], colorText[3]], false, 2);
         DrawSprite("commonmenu", "arrowleft",  this.Config.x - 0.1050, this.Config.y + 0.2770, .009, .018, 0.0, colorText[0], colorText[1], colorText[2], colorText[3])
         DrawSprite("commonmenu", "arrowright",  this.Config.x + 0.1050, this.Config.y + 0.2770, .009, .018, 0.0, colorText[0], colorText[1], colorText[2], colorText[3])
 
-        for (let ColorIndex = 1; ColorIndex < MaximumToShow; ColorIndex++) {
-            DrawRect(this.Config.x + (0.0152 * (ColorIndex-1)) - 0.10, this.Config.y + 0.3055, this.Config.bottomHeight - 0.0135, this.Config.bottomHeight, this.Config.ColoursPanel[ColorIndex][0], this.Config.ColoursPanel[ColorIndex][1], this.Config.ColoursPanel[ColorIndex][2], this.Config.ColoursPanel[ColorIndex][3]); // Colors
+        for (let ColorIndex = 0 + indexColorPanel; ColorIndex - indexColorPanel < 8; ColorIndex++) {
+            let cHover = ColorIndex == indexAColorPanel ? [this.Config.ColoursPanel[ColorIndex][0], this.Config.ColoursPanel[ColorIndex][1], this.Config.ColoursPanel[ColorIndex][2], this.Config.ColoursPanel[ColorIndex][3] - 150] : [this.Config.ColoursPanel[ColorIndex][0], this.Config.ColoursPanel[ColorIndex][1], this.Config.ColoursPanel[ColorIndex][2], this.Config.ColoursPanel[ColorIndex][3]]
+
+            DrawRect(this.Config.x + (0.027 * (ColorIndex - 1 - indexColorPanel)) - 0.0680, this.Config.y + 0.3185, this.Config.colorProps - 0.0175, this.Config.colorProps, cHover[0], cHover[1], cHover[2], cHover[3]); // Colors
         }
     }
 
@@ -227,17 +243,9 @@ export class CoraUI {
         const lenghtforPercentage = lenghtforPercentage2.length || 0;
         const percentage = this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage || 100;
 
-        DrawRect(this.Config.x, this.Config.y + (this.Config.bottomHeight * (this.CurrentMenu.buttons.length + 1) - 0.208) + 0.2935, this.Config.width - 0.4500, this.Config.bottomHeight + 0.0294, 0, 0, 0, 105); // background
-        
-        //DrawRect(this.Config.x, this.Config.y + (this.Config.bottomHeight * (this.CurrentMenu.buttons.length + 1) - 0.208) + 0.3055, this.Config.width - 0.4320, this.Config.bottomHeight - 0.0200, 0, 0, 0, 120); // UnHovered (dark)
-        //DrawRect((this.Config.x + 0.0365) / percentage, this.Config.y + (this.Config.bottomHeight * (this.CurrentMenu.buttons.length + 1) - 0.208) + 0.3055, (this.Config.width - 0.4320) / percentage, this.Config.bottomHeight - 0.0200, 255, 255, 255, 255); // UnHovered (dark)
-        
+        DrawRect(this.Config.x, this.Config.y + (this.Config.bottomHeight * (this.CurrentMenu.buttons.length + 1) - 0.208) + 0.2935, this.Config.width - 0.4500, this.Config.bottomHeight + 0.0294, 0, 0, 0, 105); // background       
         DrawRectg(this.Config.x - 0.103, this.Config.y + (this.Config.bottomHeight * (this.CurrentMenu.buttons.length + 1) - 0.201) + 0.2935, this.Config.width - 0.017, 0.008, [0, 0, 0, 120])
-        DrawRectg(this.Config.x - 0.103, this.Config.y + (this.Config.bottomHeight * (this.CurrentMenu.buttons.length + 1) - 0.201) + 0.2935, (this.Config.width - 0.017) / calc(percentage), 0.008, [255, 255, 255, 255])
-        //
-        
-        //DrawRectg(this.Config.x, this.Config.y, 0.220, this.Config.bottomHeight - 0.200 - 0.4320, [0, 0, 0, 255])
-        //DrawRectg((this.Config.x + 0.0365) / percentage, this.Config.y, (this.Config.bottomHeight * (this.CurrentMenu.buttons.length + 1) - 0.208) + 0.3055, this.Config.width - 0.4320, [255, 255, 255, 255])
+        DrawRectg(this.Config.x - 0.103, this.Config.y + (this.Config.bottomHeight * (this.CurrentMenu.buttons.length + 1) - 0.201) + 0.2935, (this.Config.width - 0.017) / calc(percentage), 0.008, [255, 255, 255, 255])       
 
         DrawText2(TextHeader || "Percentage", this.Config.x - 0.0040 - (lenghtforPercentage/1000), this.Config.y + (this.Config.bottomHeight * (this.CurrentMenu.buttons.length + 1) - 0.208) + 0.2695, this.Config.SettingsPercentagePanel.Text.Middle.Scale, 6, [colorText[0], colorText[1], colorText[2], colorText[3]], false, 2);
         DrawText2("0%", this.Config.x - 0.1045, this.Config.y + (this.Config.bottomHeight * (this.CurrentMenu.buttons.length + 1) - 0.208) + 0.2695, this.Config.SettingsPercentagePanel.Text.Middle.Scale, 6, [colorText[0], colorText[1], colorText[2], colorText[3]], false, 2);
@@ -270,8 +278,10 @@ export class CoraUI {
             } else {
                 this.closeMenu()
             }
-        } else if (IsControlPressed(0, 174)) {
-            // left
+        } else if (IsControlJustPressed(0, 174)) {
+            // left just press
+            console.log("left just press")
+
             if (this.CurrentMenu.buttons[this.Menu.IndexButton].slider) {
                 console.log("left")
 
@@ -284,29 +294,28 @@ export class CoraUI {
                     this.CurrentMenu.buttons[this.Menu.IndexButton].indexSlider = lenghtSlider - 1                   
                 } else {
                     this.CurrentMenu.buttons[this.Menu.IndexButton].indexSlider = indexSlider - 1
-                }
+                }       
+            }
 
-                // Color Panel
-
+            if (this.CurrentMenu.buttons[this.Menu.IndexButton].onColorPanel) {
                 const indexColorPanel = this.CurrentMenu.buttons[this.Menu.IndexButton].indexColorPanel || 0
                 const lenghtColorPanel = this.CurrentMenu.buttons[this.Menu.IndexButton].lenghtColorPanel || 0
-                if (indexColorPanel > 1 && indexColorPanel <= lenghtColorPanel) {
-                    this.CurrentMenu.buttons[this.Menu.IndexButton].indexColorPanel =- 1 // remove 1
-                }
-        
-            }
 
-            if (this.CurrentMenu.buttons[this.Menu.IndexButton].onPourcentage) {
-                if (this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage > 0) {
-                    this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage = this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage - 1
-                    this.CurrentMenu.buttons[this.Menu.IndexButton].onPourcentage(this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage)
+                if (indexColorPanel <= 0) {
+                    this.CurrentMenu.buttons[this.Menu.IndexButton].indexColorPanel = this.CurrentMenu.buttons[this.Menu.IndexButton].lenghtColorPanel
                 } else {
-                    this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage = this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage = 100
-                    this.CurrentMenu.buttons[this.Menu.IndexButton].onPourcentage(this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage)
+                    if (indexColorPanel > 8) {
+                        this.CurrentMenu.buttons[this.Menu.IndexButton].showColorPanel =- 1
+                    }
+                    this.CurrentMenu.buttons[this.Menu.IndexButton].indexColorPanel = indexColorPanel - 1 // remove 1
                 }
+
+                console.log(this.CurrentMenu.buttons[this.Menu.IndexButton].indexColorPanel)
             }
-        } else if (IsControlPressed(0, 175)) {
-            // right
+        } else if (IsControlJustPressed(0, 175)) {
+            // right just press
+            console.log("right just press")
+
             if (this.CurrentMenu.buttons[this.Menu.IndexButton].slider) {
                 console.log("right")
                 
@@ -320,23 +329,43 @@ export class CoraUI {
                 } else {
                     this.CurrentMenu.buttons[this.Menu.IndexButton].indexSlider = indexSlider + 1
                 }
-
-                // Color Panel
-
-                const indexColorPanel = this.CurrentMenu.buttons[this.Menu.IndexButton].indexColorPanel || 0
-                const lenghtColorPanel = this.CurrentMenu.buttons[this.Menu.IndexButton].lenghtColorPanel || 0
-                if (indexColorPanel > 1 && indexColorPanel <= lenghtColorPanel) {
-                    this.CurrentMenu.buttons[this.Menu.IndexButton].indexColorPanel =+ 1 // add 1
-                }
-
             }
 
+            if (this.CurrentMenu.buttons[this.Menu.IndexButton].onColorPanel) {
+                const indexColorPanel = this.CurrentMenu.buttons[this.Menu.IndexButton].indexColorPanel || 0
+                const lenghtColorPanel = this.CurrentMenu.buttons[this.Menu.IndexButton].lenghtColorPanel || 0
+
+                if (indexColorPanel >= lenghtColorPanel) {
+                    this.CurrentMenu.buttons[this.Menu.IndexButton].indexColorPanel = 0
+                } else {
+                    if (indexColorPanel > 8) {
+                        this.CurrentMenu.buttons[this.Menu.IndexButton].showColorPanel =+ 1
+                    }
+                    this.CurrentMenu.buttons[this.Menu.IndexButton].indexColorPanel = indexColorPanel + 1 // remove 1
+                }
+
+                console.log(this.CurrentMenu.buttons[this.Menu.IndexButton].indexColorPanel)
+
+            }
+        } else if (IsControlPressed(0, 174)) {
+            // left press
             if (this.CurrentMenu.buttons[this.Menu.IndexButton].onPourcentage) {
-                if (this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage < 100) {
-                    this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage = this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage + 1
+                if (this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage <= 0) {
+                    this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage = this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage = 100
                     this.CurrentMenu.buttons[this.Menu.IndexButton].onPourcentage(this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage)
                 } else {
+                    this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage = this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage - 1
+                    this.CurrentMenu.buttons[this.Menu.IndexButton].onPourcentage(this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage)
+                }
+            }
+        } else if (IsControlPressed(0, 175)) {
+            // right press
+            if (this.CurrentMenu.buttons[this.Menu.IndexButton].onPourcentage) {
+                if (this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage >= 100) {
                     this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage = this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage = 0
+                    this.CurrentMenu.buttons[this.Menu.IndexButton].onPourcentage(this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage)
+                } else {
+                    this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage = this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage + 1
                     this.CurrentMenu.buttons[this.Menu.IndexButton].onPourcentage(this.CurrentMenu.buttons[this.Menu.IndexButton].valuePourcentage)
                 }
             }

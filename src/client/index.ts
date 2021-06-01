@@ -11,13 +11,11 @@ setImmediate(() => {
         subtitle: "Menu intéractions",
         glare: true,
         buttons: [
+
             { name: 'opacity eyes', onPourcentage: (e: number) => {
                 console.log("pourcentage", e)
             } },
 
-            { name: 'lenght dick', onPourcentage: (e: number) => {
-                console.log("pourcentage", e)
-            } },
 
             { name: 'Am', onClick: () => console.log(15641)},                
             { name: 'Checkbox', checkbox: (checked1: boolean) => {
