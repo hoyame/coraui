@@ -1,14 +1,16 @@
-import { DrawText2 } from "../core/utils"
+import { DrawRectg, DrawText2 } from "../core/utils"
 import { RenderSprite } from "../core/utils"
 
 interface IButtons {
     name: string;
     rightText?: string;
-    onClick?: any;
     checkbox?: any;
     statusCheckbox?: boolean;
     slider?: Array<string>;
     indexSlider?: number;
+    
+    onClick?: any;
+    onPourcentage?: any;
 }
 
 interface ICMenu {
@@ -142,6 +144,12 @@ export class CoraUI {
                     DrawText2(slider[index] || "", this.Config.x + 0.0935 - (lenght.length/1000), this.Config.y + (this.Config.bottomHeight * (i + 1) + 0.0570), 0.235, 0, [colorText[0], colorText[1], colorText[2], colorText[3]], true, 2)
                     DrawSprite("commonmenu", "arrowright",  this.Config.x + 0.1045, this.Config.y + (this.Config.bottomHeight * (i + 1) + 0.0675), .009, .018, 0.0, colorText[0], colorText[1], colorText[2], colorText[3])
                 }
+
+                if (this.CurrentMenu.buttons[i].onPourcentage !== undefined && i == this.Menu.IndexButton) {
+                    console.log(i, this.CurrentMenu.buttons[i].onPourcentage)
+                    this.DrawPercentagePanel("Pipi, caca");
+
+                }
             }
         } 
     }
@@ -150,19 +158,23 @@ export class CoraUI {
         const colorText = [255, 255, 255, 255]; 
         const lenghtforPercentage2 = TextHeader || "Percentage";
         const lenghtforPercentage = lenghtforPercentage2.length || 0;
-        const percentage = 25;
+        const percentage = 2;
 
-        const divcise = (percentage / 0.0321) / 10000
-        const percentage1 = this.Config.x - divcise
-        const percentage2 = (percentage/100) - 0.2
+        DrawRect(this.Config.x, this.Config.y + (this.Config.bottomHeight * (this.CurrentMenu.buttons.length + 1) - 0.208) + 0.2935, this.Config.width - 0.4500, this.Config.bottomHeight + 0.0294, 0, 0, 0, 105); // background
+        
+        //DrawRect(this.Config.x, this.Config.y + (this.Config.bottomHeight * (this.CurrentMenu.buttons.length + 1) - 0.208) + 0.3055, this.Config.width - 0.4320, this.Config.bottomHeight - 0.0200, 0, 0, 0, 120); // UnHovered (dark)
+        //DrawRect((this.Config.x + 0.0365) / percentage, this.Config.y + (this.Config.bottomHeight * (this.CurrentMenu.buttons.length + 1) - 0.208) + 0.3055, (this.Config.width - 0.4320) / percentage, this.Config.bottomHeight - 0.0200, 255, 255, 255, 255); // UnHovered (dark)
+        
+        DrawRectg(this.Config.x - 0.103, this.Config.y + (this.Config.bottomHeight * (this.CurrentMenu.buttons.length + 1) - 0.201) + 0.2935, this.Config.width - 0.017, 0.008, [0, 0, 0, 120])
+        DrawRectg(this.Config.x - 0.103, this.Config.y + (this.Config.bottomHeight * (this.CurrentMenu.buttons.length + 1) - 0.201) + 0.2935, (this.Config.width - 0.017) / 5, 0.008, [255, 255, 255, 255])
+        //
+        
+        //DrawRectg(this.Config.x, this.Config.y, 0.220, this.Config.bottomHeight - 0.200 - 0.4320, [0, 0, 0, 255])
+        //DrawRectg((this.Config.x + 0.0365) / percentage, this.Config.y, (this.Config.bottomHeight * (this.CurrentMenu.buttons.length + 1) - 0.208) + 0.3055, this.Config.width - 0.4320, [255, 255, 255, 255])
 
-        DrawRect(this.Config.x, this.Config.y + 0.2935, this.Config.width - 0.4500, this.Config.bottomHeight + 0.0294, 0, 0, 0, 105); // background
-        DrawRect(this.Config.x, this.Config.y + 0.3055, this.Config.width - 0.4320, this.Config.bottomHeight - 0.0200, 0, 0, 0, 120); // UnHovered (dark)
-        DrawRect(percentage1, this.Config.y + 0.3055, percentage2, this.Config.bottomHeight - 0.0200, 255, 255, 255, 255); // Hovered (white)
-
-        DrawText2(TextHeader || "Percentage", this.Config.x - 0.0040 - (lenghtforPercentage/1000),this.Config.y + 0.2700, this.Config.SettingsPercentagePanel.Text.Middle.Scale, 6, [colorText[0], colorText[1], colorText[2], colorText[3]], false, 2);
-        DrawText2("0%", this.Config.x - 0.1045,this.Config.y + 0.2730, this.Config.SettingsPercentagePanel.Text.Middle.Scale, 6, [colorText[0], colorText[1], colorText[2], colorText[3]], false, 2);
-        DrawText2("100%", this.Config.x + 0.0870,this.Config.y + 0.2730, this.Config.SettingsPercentagePanel.Text.Middle.Scale, 6, [colorText[0], colorText[1], colorText[2], colorText[3]], false, 2);
+        DrawText2(TextHeader || "Percentage", this.Config.x - 0.0040 - (lenghtforPercentage/1000), this.Config.y + (this.Config.bottomHeight * (this.CurrentMenu.buttons.length + 1) - 0.208) + 0.2695, this.Config.SettingsPercentagePanel.Text.Middle.Scale, 6, [colorText[0], colorText[1], colorText[2], colorText[3]], false, 2);
+        DrawText2("0%", this.Config.x - 0.1045, this.Config.y + (this.Config.bottomHeight * (this.CurrentMenu.buttons.length + 1) - 0.208) + 0.2695, this.Config.SettingsPercentagePanel.Text.Middle.Scale, 6, [colorText[0], colorText[1], colorText[2], colorText[3]], false, 2);
+        DrawText2("100%", this.Config.x + 0.0870, this.Config.y + (this.Config.bottomHeight * (this.CurrentMenu.buttons.length + 1) - 0.208) + 0.2695, this.Config.SettingsPercentagePanel.Text.Middle.Scale, 6, [colorText[0], colorText[1], colorText[2], colorText[3]], false, 2);
     }
 
     public static controlMenu() {
@@ -219,6 +231,10 @@ export class CoraUI {
                     this.CurrentMenu.buttons[this.Menu.IndexButton].indexSlider = indexSlider + 1
                 }
             }
+
+            if (this.CurrentMenu.buttons[this.Menu.IndexButton].onPourcentage) {
+
+            }
         }
     }
 
@@ -227,7 +243,6 @@ export class CoraUI {
             this.drawHeader();
             this.drawButtons();
             this.controlMenu();
-            this.DrawPercentagePanel("Pipi, caca");
         }
     }
 
