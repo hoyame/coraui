@@ -28,3 +28,11 @@ export const RenderSprite = (TextureDictionary: string, TextureName: string, X: 
     }
     DrawSprite(TextureDictionary, TextureName, X + Width * 0.5, Y + Height * 0.5, Width, Height, Heading || 0, R, G, B, A)
 }
+
+export const DrawRectg = (x: any, y: any, w: any, h: any, color: any) => {
+    DrawRect(x + w / 2, y + h / 2, w, h, color[0], color[1], color[2], color[3])
+}
+
+export const calc = (n: any) => {
+    return 100 / n
+}
