@@ -20,9 +20,6 @@ interface IButtons {
 	indexColorPanel?: number;
 	showColorPanel?: number;
 	lenghtColorPanel?: number;
-
-	heritagePanel?: any;
-	indexHeritagePanel?: [number, number, number, number];
 }
 
 interface ICMenu {
@@ -31,6 +28,9 @@ interface ICMenu {
 	glare: boolean;
 	submenus?: any;
 	buttons: IButtons[];
+    
+	heritagePanel?: any;
+	indexHeritagePanel?: [number, number, number, number];
 }
 
 let init = true;
@@ -113,6 +113,8 @@ export class CoraUI {
 		glare: false,
 		buttons: [],
 		submenus: {},
+        heritagePanel: false,
+        indexHeritagePanel: [0, 0, 0, 0]
 	};
 
 	static CurrentMenu: ICMenu = {
@@ -121,6 +123,8 @@ export class CoraUI {
 		glare: false,
 		buttons: [],
 		submenus: {},
+        heritagePanel: false,
+        indexHeritagePanel: [0, 0, 0, 0]
 	};
 
 	public static drawHeader() {
@@ -202,6 +206,11 @@ export class CoraUI {
 		if (this.Menu.Opened == true) {
 			let startIndex = Math.max(0, this.Menu.IndexButton - 9);
 			let endIndex = Math.min(this.CurrentMenu.buttons.length, startIndex + 10);
+            let startY = this.Config.y + (this.Config.bottomHeight + 0.0055);
+            
+            if (this.CurrentMenu.heritagePanel == true) {
+                startY += 0.203;
+            }
 
 			for (let i = startIndex; i < endIndex; i++) {
 				if (this.CurrentMenu.buttons[i].checkbox !== null && init) {
@@ -220,8 +229,7 @@ export class CoraUI {
 
 				DrawRect(
 					this.Config.x,
-					this.Config.y +
-						(this.Config.bottomHeight + 0.0055) +
+					startY +
 						(this.Config.bottomHeight * (i - startIndex + 1) + 0.033),
 					this.Config.width,
 					this.Config.bottomHeight + 0.0011,
@@ -233,8 +241,8 @@ export class CoraUI {
 				DrawText2(
 					this.CurrentMenu.buttons[i].name,
 					this.Config.x - 0.1075,
-					this.Config.y +
-						(this.Config.bottomHeight * (i - startIndex + 1) + 0.0565),
+					startY + 0.022 +
+						(this.Config.bottomHeight * (i - startIndex + 1)),
 					0.265,
 					0,
 					[colorText[0], colorText[1], colorText[2], colorText[3]],
@@ -248,8 +256,8 @@ export class CoraUI {
 					DrawText2(
 						this.CurrentMenu.buttons[i].rightText || "",
 						this.Config.x + 0.102 - lenght.length / 1000,
-						this.Config.y +
-							(this.Config.bottomHeight * (i - startIndex + 1) + 0.0565),
+                        startY + 0.0225 +
+						(this.Config.bottomHeight * (i - startIndex + 1)),
 						0.235,
 						0,
 						[colorText[0], colorText[1], colorText[2], colorText[3]],
@@ -265,8 +273,7 @@ export class CoraUI {
 								this.Config.SettingsCheckbox.Dictionary,
 								this.Config.SettingsCheckbox.TexturesCheckedOver,
 								this.Config.x + 0.094,
-								this.Config.y +
-									(this.Config.bottomHeight + 0.0055) +
+								startY +
 									(this.Config.bottomHeight * (i - startIndex + 1) + 0.018),
 								this.Config.width - 0.2078,
 								this.Config.bottomHeight + 0.0014,
@@ -281,8 +288,7 @@ export class CoraUI {
 								this.Config.SettingsCheckbox.Dictionary,
 								this.Config.SettingsCheckbox.TexturesChecked,
 								this.Config.x + 0.094,
-								this.Config.y +
-									(this.Config.bottomHeight + 0.0055) +
+								startY +
 									(this.Config.bottomHeight * (i - startIndex + 1) + 0.018),
 								this.Config.width - 0.2078,
 								this.Config.bottomHeight + 0.0014,
@@ -298,8 +304,7 @@ export class CoraUI {
 							this.Config.SettingsCheckbox.Dictionary,
 							this.Config.SettingsCheckbox.TexturesUnchecked,
 							this.Config.x + 0.094,
-							this.Config.y +
-								(this.Config.bottomHeight + 0.0055) +
+							startY +
 								(this.Config.bottomHeight * (i - startIndex + 1) + 0.018),
 							this.Config.width - 0.2078,
 							this.Config.bottomHeight + 0.0014,
@@ -331,8 +336,8 @@ export class CoraUI {
 						"commonmenu",
 						"arrowleft",
 						this.Config.x + 0.0775 - LengthToGive,
-						this.Config.y +
-							(this.Config.bottomHeight * (i - startIndex + 1) + 0.0675),
+                        startY + 0.033 +
+                        (this.Config.bottomHeight * (i - startIndex + 1)),
 						0.009,
 						0.018,
 						0.0,
@@ -344,8 +349,8 @@ export class CoraUI {
 					DrawText2(
 						slider[index] || "",
 						this.Config.x + 0.0935 - LengthToGive2,
-						this.Config.y +
-							(this.Config.bottomHeight * (i - startIndex + 1) + 0.057),
+                        startY + 0.023 +
+							(this.Config.bottomHeight * (i - startIndex + 1)),
 						0.235,
 						0,
 						[colorText[0], colorText[1], colorText[2], colorText[3]],
@@ -356,8 +361,8 @@ export class CoraUI {
 						"commonmenu",
 						"arrowright",
 						this.Config.x + 0.1045,
-						this.Config.y +
-							(this.Config.bottomHeight * (i - startIndex + 1) + 0.0675),
+                        startY + 0.033 +
+							(this.Config.bottomHeight * (i - startIndex + 1)),
 						0.009,
 						0.018,
 						0.0,
@@ -380,9 +385,9 @@ export class CoraUI {
 					DrawSprite(
 						"commonmenu",
 						"arrowleft",
-						this.Config.x + 0.0775,
-						this.Config.y +
-							(this.Config.bottomHeight * (i - startIndex + 1) + 0.0675),
+						this.Config.x + 0.089,
+                        startY + 0.033 +
+                        (this.Config.bottomHeight * (i - startIndex + 1)),
 						0.009,
 						0.018,
 						0.0,
@@ -393,9 +398,9 @@ export class CoraUI {
 					);
 					DrawText2(
 						slider[index] || "",
-						this.Config.x + 0.0935,
-						this.Config.y +
-							(this.Config.bottomHeight * (i - startIndex + 1) + 0.057),
+						this.Config.x + 0.097,
+                        startY + 0.023 +
+							(this.Config.bottomHeight * (i - startIndex + 1)),
 						0.235,
 						0,
 						[colorText[0], colorText[1], colorText[2], colorText[3]],
@@ -406,8 +411,8 @@ export class CoraUI {
 						"commonmenu",
 						"arrowright",
 						this.Config.x + 0.1045,
-						this.Config.y +
-							(this.Config.bottomHeight * (i - startIndex + 1) + 0.0675),
+                        startY + 0.033 +
+							(this.Config.bottomHeight * (i - startIndex + 1)),
 						0.009,
 						0.018,
 						0.0,
@@ -443,6 +448,10 @@ export class CoraUI {
 				) {
 					this.DrawColorPanel();
 				}
+
+                if (this.CurrentMenu.heritagePanel) {
+		            this.DrawHeritagePanel();
+                }
 			}
 		}
 	}
@@ -666,7 +675,39 @@ export class CoraUI {
 	}
 
 	public static DrawHeritagePanel() {
-		//DrawSprite("pause_menu_pages_char_mom_dad", "vignette", this.Config.width - 0.225 / 2, 0.095 / 2, 0.225, 0.21, .0, 255, 255, 255, 255)
+        const indexHeritagePanel = this.CurrentMenu.indexHeritagePanel || [0, 0, 0, 0] 
+        // DrawRect(
+        //     this.Config.x,
+        //     this.Config.y +
+        //         (this.Config.bottomHeight + 0.0055) +
+        //         (this.Config.bottomHeight * (i - startIndex + 1) + 0.033),
+        //     this.Config.width,
+        //     this.Config.bottomHeight + 0.0011,
+        //     color[0],
+        //     color[1],
+        //     color[2],
+        //     color[3]
+        // );
+
+		DrawSprite("pause_menu_pages_char_mom_dad", "mumdadbg", 
+        this.Config.x, 
+        this.Config.y + (this.Config.bottomHeight + 0.0055) + 0.10894 + 0.0385,
+        0.225, 0.20, .0, 255, 255, 255, 255)
+
+		DrawSprite("pause_menu_pages_char_mom_dad", "vignette", 
+        this.Config.x, 
+        this.Config.y + (this.Config.bottomHeight + 0.0055) + 0.10895 + 0.0385,
+        0.225, 0.20, .0, 255, 255, 255, 255)
+
+		DrawSprite("char_creator_portraits", "male_" + + indexHeritagePanel[0], 
+        this.Config.x - 0.040, 
+        this.Config.y + (this.Config.bottomHeight + 0.0055) + 0.10892 + 0.0385,
+        0.11, 0.20, .0, 255, 255, 255, 255)
+    
+        DrawSprite("char_creator_portraits", "female_" + indexHeritagePanel[1], 
+        this.Config.x + 0.040, 
+        this.Config.y + (this.Config.bottomHeight + 0.0055) + 0.10892 + 0.0385,
+        0.11, 0.20, .0, 255, 255, 255, 255)
 	}
 
 	public static controlMenu() {
@@ -845,7 +886,6 @@ export class CoraUI {
 			this.drawButtons();
 			this.controlMenu();
 
-			//this.DrawHeritagePanel();
 			//this.DrawPercentagePanel("Pipi, caca");
 			//this.DrawColorPanel();
 		}
@@ -865,7 +905,9 @@ export class CoraUI {
 
 	public static openMenu(obj: ICMenu) {
 		SetStreamedTextureDictAsNoLongerNeeded("pause_menu_pages_char_mom_dad");
+		SetStreamedTextureDictAsNoLongerNeeded("char_creator_portraits");
 		RequestStreamedTextureDict("pause_menu_pages_char_mom_dad", false);
+		RequestStreamedTextureDict("char_creator_portraits", false);
 
 		this.Menu.Opened = true;
 		this.CurrentMenu = obj;
@@ -882,6 +924,8 @@ export class CoraUI {
 			glare: false,
 			buttons: [],
 			submenus: {},
+            heritagePanel: false,
+            indexHeritagePanel: [0, 0, 0, 0]
 		};
 
 		this.CurrentMenu = {
@@ -890,8 +934,14 @@ export class CoraUI {
 			glare: false,
 			buttons: [],
 			submenus: {},
+            heritagePanel: false,
+            indexHeritagePanel: [0, 0, 0, 0]
 		};
 	}
+
+    public static updateIndexHeritagePanel(i: number, c: number) {
+        this.CurrentMenu.indexHeritagePanel[i] = c
+    }
 
 	public static closeMenu() {
 		this.resetMenu();

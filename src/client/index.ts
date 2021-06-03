@@ -9,43 +9,22 @@ setImmediate(() => {
 		name: "Menu F5",
 		subtitle: "Menu intéractions",
 		glare: true,
+        heritagePanel: true,
+        indexHeritagePanel: [0, 0, 0, 0],
+
 		buttons: [
-			{
-				name: "opacity eyes",
-				onPourcentage: (e: number) => {
-					console.log("pourcentage", e);
-				},
-			},
 
-			{
-				name: "opacity eyes",
-				onColorPanel: (e: number) => {
-					console.log("pourcentage", e);
-				},
-			},
-
-			{ name: "Am", onSlide: (e: any) => console.log(e), slideNum: 5 },
-			{
-				name: "Am",
-				onClick: () => console.log(15641),
-				slider: ["65", "eiubgf", "bgr"],
-			},
-
-			{
-				name: "Gay",
-				checkbox: (checked1: boolean) => {
-					console.log("boolean", checked1);
-				},
-			},
-			{
-				name: "Am 2",
-				onClick: () => {
-					console.log("sitterlan amonaguyem");
-				},
-			},
-
-
-
+			{ name: "Pere", onSlide: (e: any) => {
+                console.log(e);
+                CoraUI.updateIndexHeritagePanel(0, e);
+            }, slideNum: 5 },
+            { name: "Mere", onSlide: (e: any) => {
+                console.log(e);
+                CoraUI.updateIndexHeritagePanel(1, e);
+            }, slideNum: 5 },			
+            { name: "Am", onSlide: (e: any) => console.log(e), slideNum: 5 },
+			{ name: "Am", onSlide: (e: any) => console.log(e), slideNum: 5 }
+		
 		],
 		submenus: {
 			zebi: {
