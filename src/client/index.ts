@@ -1,7 +1,8 @@
-import { calc, DrawRectg, DrawText2, RenderSprite } from "./utils";
+import { calc, DrawRectg, DrawText2, RenderSprite, GetTextWidth, GetLineCount, breakString } from "./utils";
 
 interface IButtons {
 	name: string;
+	description?: string;
 	rightText?: string;
 	checkbox?: any;
 	statusCheckbox?: boolean;
@@ -249,6 +250,67 @@ export class CoraUI {
 					2
 				);
 
+				if (this.CurrentMenu.buttons[i].description && this.CurrentMenu.buttons[i].description != "") {
+					if (i == this.Menu.IndexButton) {
+						const lenght = this.CurrentMenu.buttons[i].description || ""
+						if (lenght.length < 100) {
+							const colorfordescback = [16, 16, 16, 165];
+							const colorfordesctext = [255, 255, 255, 255];
+							const buttonsLenght = this.CurrentMenu.buttons.length > 10 ? 10 : this.CurrentMenu.buttons.length
+
+							let DescLineCount = GetLineCount(this.CurrentMenu.buttons[i].description || "", this.Config.x - 0.1075, startY + (this.Config.bottomHeight * (buttonsLenght + 1) - 0.208) + 0.2350)
+
+							if (DescLineCount == 1) {
+								DrawRect(
+									this.Config.x,
+									startY +
+										(this.Config.bottomHeight * (buttonsLenght + 1) - 0.208) + 0.2450,
+									this.Config.width,
+									this.Config.bottomHeight + 0.0011,
+									colorfordescback[0],
+									colorfordescback[1],
+									colorfordescback[2],
+									colorfordescback[3]
+								);
+								DrawText2(
+									this.CurrentMenu.buttons[i].description || "",
+									this.Config.x - 0.1075,
+									startY +
+										(this.Config.bottomHeight * (buttonsLenght + 1) - 0.208) + 0.2350,
+									0.265,
+									0,
+									[colorfordesctext[0], colorfordesctext[1], colorfordesctext[2], colorfordesctext[3]],
+									false,
+									2
+								);
+							} else if (DescLineCount >= 2) {
+								DrawRect(
+									this.Config.x,
+									startY +
+										(this.Config.bottomHeight * (buttonsLenght + 1) - 0.208) + 0.2545,
+									this.Config.width,
+									this.Config.bottomHeight + 0.0201,
+									colorfordescback[0],
+									colorfordescback[1],
+									colorfordescback[2],
+									colorfordescback[3]
+								);
+								DrawText2(
+									breakString(this.CurrentMenu.buttons[i].description || "", 40),
+									this.Config.x - 0.1075,
+									startY +
+										(this.Config.bottomHeight * (buttonsLenght + 1) - 0.208) + 0.2350,
+									0.265,
+									0,
+									[colorfordesctext[0], colorfordesctext[1], colorfordesctext[2], colorfordesctext[3]],
+									false,
+									2
+								);
+							}
+						}
+					}
+				}
+
 				if (this.CurrentMenu.buttons[i].rightText) {
 					const lenght = this.CurrentMenu.buttons[i].rightText || "";
 
@@ -321,6 +383,8 @@ export class CoraUI {
 					const index = this.CurrentMenu.buttons[i].indexSlider || 0;
 					const lenght = slider[index] || "";
 
+					let changelenght = (GetTextWidth(lenght, 0, 0.235))
+
 					let LengthToGive = lenght.length / 1000;
 					if (lenght.length >= 9) {
 						LengthToGive = lenght.length / 350;
@@ -331,10 +395,13 @@ export class CoraUI {
 						LengthToGive2 = lenght.length / 600;
 					}
 
+					//console.log(changelenght)
+
 					DrawSprite(
 						"commonmenu",
 						"arrowleft",
-						this.Config.x + 0.0775 - LengthToGive,
+						this.Config.x + 0.0775 - LengthToGive,					
+				//		(changelenght),
                         startY + 0.033 +
                         (this.Config.bottomHeight * (i - startIndex + 1)),
 						0.009,
@@ -739,8 +806,6 @@ export class CoraUI {
 				this.closeMenu();
 			}
 		} else if (IsControlJustPressed(0, 174)) {
-			// left just press
-			console.log("left just press");
 
 			if (
 				this.CurrentMenu.buttons[this.Menu.IndexButton].slider ||
@@ -785,8 +850,6 @@ export class CoraUI {
 			}
 		} else if (IsControlJustPressed(0, 175)) {
 			// right just press
-			console.log("right just press");
-
 			if (
 				this.CurrentMenu.buttons[this.Menu.IndexButton].slider ||
 				this.CurrentMenu.buttons[this.Menu.IndexButton].slideNum
