@@ -16,8 +16,12 @@ CoraUI.openMenu({
           console.log('boolean', checked1)
       }},
       { name: 'Am 2', onClick: () => {
-          console.log('sitterlan amonaguyem')
+          console.log('amonaguyem')
       }},
+      { 
+        name: "Glace", onClick: () => null, 
+				slider: ["Chocolat", "Vanille", "Rien"]
+      },
       { name: 'Test', onClick: () => CoraUI.openSubmenu('zebi')},
       { name: 'Test 2', onClick: () => CoraUI.openSubmenu('amona')},
       { name: 'Close menu', rightText: "~g~100 000 $", onClick: () => CoraUI.closeMenu()},
