@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode production --config client.config.js",
+    "lint": "prettier --write \"src/**/*.{ts,tsx}\"",
     "watch": "webpack --mode development --watch true --config client.config.js"
   },
   "license": "MIT",
@@ -11,7 +12,8 @@
   "dependencies": {
     "@citizenfx/client": "^2.0.3923-1",
     "@citizenfx/server": "^2.0.3923-1",
-    "@types/node": "^15.0.2"
+    "@types/node": "^15.0.2",
+    "prettier": "^2.3.0"
   },
   "devDependencies": {
     "ts-loader": "^6.0.2",
