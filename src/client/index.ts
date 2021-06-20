@@ -967,8 +967,10 @@ export class CoraUI {
 
 	public static openMenu(obj: ICMenu) {
 		SetStreamedTextureDictAsNoLongerNeeded("pause_menu_pages_char_mom_dad");
+		SetStreamedTextureDictAsNoLongerNeeded("commonmenu");
 		SetStreamedTextureDictAsNoLongerNeeded("char_creator_portraits");
 		RequestStreamedTextureDict("pause_menu_pages_char_mom_dad", false);
+		RequestStreamedTextureDict("commonmenu", false);
 		RequestStreamedTextureDict("char_creator_portraits", false);
 
 		this.Menu.Opened = true;
