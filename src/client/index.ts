@@ -9,6 +9,7 @@ interface IButtons {
 	slider?: Array<string>;
 	indexSlider?: number;
 	slideNum?: number;
+	backgroundColor?: any;
 
 	onClick?: any;
 	onSlide?: any;
@@ -218,8 +219,14 @@ export class CoraUI {
 					init = false;
 				}
 
+				const color_def = i == this.Menu.IndexButton ? [255, 255, 255, 255] : [16, 16, 16, 120]
+				let color_cust: any
+				if (this.CurrentMenu.buttons[i].backgroundColor) {
+					color_cust = i == this.Menu.IndexButton ? [this.CurrentMenu.buttons[i].backgroundColor[0], this.CurrentMenu.buttons[i].backgroundColor[1], this.CurrentMenu.buttons[i].backgroundColor[2], 255] : [this.CurrentMenu.buttons[i].backgroundColor[0], this.CurrentMenu.buttons[i].backgroundColor[1], this.CurrentMenu.buttons[i].backgroundColor[2], 100]
+				}
+
 				const color =
-					i == this.Menu.IndexButton ? [255, 255, 255, 255] : [16, 16, 16, 120];
+					this.CurrentMenu.buttons[i].backgroundColor ? color_cust : color_def
 				const colorText =
 					i == this.Menu.IndexButton ? [0, 0, 0, 255] : [255, 255, 255, 255];
 				const checkboxColor =
