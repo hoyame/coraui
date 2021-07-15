@@ -17,6 +17,7 @@ interface IButtons {
 	valuePourcentage?: any;
 
 	onColorPanel?: any;
+	customColors?: number[][];
 
 	indexColorPanel?: number;
 	showColorPanel?: number;
@@ -519,7 +520,7 @@ export class CoraUI {
 					this.CurrentMenu.buttons[i].onColorPanel !== undefined &&
 					i == this.Menu.IndexButton
 				) {
-					this.DrawColorPanel();
+					this.DrawColorPanel(undefined, this.CurrentMenu.buttons[i].customColors);
 				}
 
                 if (this.CurrentMenu.heritagePanel) {
@@ -531,15 +532,11 @@ export class CoraUI {
 
 	public static DrawColorPanel(
 		Title?: string,
-		Colors?: Array<number>,
-		MinimumIndex?: number,
-		MaximumIndex?: number
+		Colors?: number[][]
 	) {
         const buttonsLenght = this.CurrentMenu.buttons.length > 10 ? 10 : this.CurrentMenu.buttons.length
 
 		const ColorArray = Colors || this.Config.ColoursPanel;
-
-		let ColorAct = [];
 
 		this.CurrentMenu.buttons[this.Menu.IndexButton].lenghtColorPanel =
 			ColorArray.length;
@@ -550,10 +547,6 @@ export class CoraUI {
 		this.CurrentMenu.buttons[this.Menu.IndexButton].showColorPanel = 8;
 		const indexAColorPanel =
 			this.CurrentMenu.buttons[this.Menu.IndexButton].indexColorPanel || 0;
-		let indexColorPanel =
-			this.CurrentMenu.buttons[this.Menu.IndexButton].showColorPanel || 8;
-
-		let MaximumToShow = (ColorArray.length > 8 && 8) || ColorArray.length > 8;
 
 		DrawRect(
 			this.Config.x,
@@ -624,16 +617,16 @@ export class CoraUI {
 			let rgb =
 				ColorIndex == indexAColorPanel
 					? [
-							this.Config.ColoursPanel[ColorIndex][0],
-							this.Config.ColoursPanel[ColorIndex][1],
-							this.Config.ColoursPanel[ColorIndex][2],
-							this.Config.ColoursPanel[ColorIndex][3] - 150,
+							ColorArray[ColorIndex][0],
+							ColorArray[ColorIndex][1],
+							ColorArray[ColorIndex][2],
+							ColorArray[ColorIndex].length > 3 ? (ColorArray[ColorIndex][3] - 150) : 105
 					  ]
 					: [
-							this.Config.ColoursPanel[ColorIndex][0],
-							this.Config.ColoursPanel[ColorIndex][1],
-							this.Config.ColoursPanel[ColorIndex][2],
-							this.Config.ColoursPanel[ColorIndex][3],
+							ColorArray[ColorIndex][0],
+							ColorArray[ColorIndex][1],
+							ColorArray[ColorIndex][2],
+							ColorArray[ColorIndex].length > 3 ? ColorArray[ColorIndex][3] : 255,
 					  ];
 			DrawRect(
 				startX + rectWidth * (ColorIndex - startIndex),
