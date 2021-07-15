@@ -17,7 +17,7 @@ interface IButtons {
 	valuePourcentage?: any;
 
 	onColorPanel?: any;
-	customColors?: number[][];
+	customColorPanel?: number[][];
 
 	indexColorPanel?: number;
 	showColorPanel?: number;
@@ -520,7 +520,7 @@ export class CoraUI {
 					this.CurrentMenu.buttons[i].onColorPanel !== undefined &&
 					i == this.Menu.IndexButton
 				) {
-					this.DrawColorPanel(undefined, this.CurrentMenu.buttons[i].customColors);
+					this.DrawColorPanel(undefined, this.CurrentMenu.buttons[i].customColorPanel);
 				}
 
                 if (this.CurrentMenu.heritagePanel) {
