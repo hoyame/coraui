@@ -1,6 +1,8 @@
 # FiveM-CoraUI
 Library written in typescript to create menus on FiveM
 
+# Discord Dev : https://discord.gg/Em3Fn9Amyv
+
 # Example 
 ## Create menu
 ```ts
@@ -49,6 +51,3 @@ CoraUI.openMenu({
 ```
 # Prewiew
 ![unknown](https://cdn.discordapp.com/attachments/836192469359394856/842524671185911818/unknown.png)
-
-# Discord 
-https://discord.gg/nkQS6ZRxJW
