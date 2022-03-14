@@ -3,6 +3,16 @@ Library written in typescript to create menus on FiveM
 
 # Discord : https://discord.gg/Em3Fn9Amyv
 
+# Features
+
+- Color Panel
+- Slidebar panel
+- Slider panel
+- Straight text
+- Glare in the header
+- Submenus
+- Heritidy Panel
+
 # Example 
 ## Create menu
 ```ts
