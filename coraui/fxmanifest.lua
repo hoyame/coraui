@@ -5,4 +5,10 @@ client_scripts {
     'dist/client/*.js',
 }
 
-export 'CreateMenu'
+exports {
+    'CreateMenu',
+    'CreateSubmenu',
+    'CloseMenu',
+    'CloseSubmenu',
+    'ResetMenu'
+}
