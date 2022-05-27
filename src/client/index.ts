@@ -1024,3 +1024,8 @@ setTick(() => {
 exports('CreateMenu', (arg: any) => {
 	CoraUI.openMenu(arg);
 })
+
+exports('CreateSubmenu', (arg: any) => {
+	CoraUI.openSubmenu(arg);
+})
+
