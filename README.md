@@ -2,6 +2,10 @@
 Library written in typescript to create menus on FiveM
 Support LUA version
 
+## Showcase
+
+![image](https://user-images.githubusercontent.com/56686012/170692436-726b2506-15f8-44af-b5ea-ffd74c64e3b2.png)
+
 ## Example 
 
 ```
