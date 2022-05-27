@@ -1029,3 +1029,14 @@ exports('CreateSubmenu', (arg: any) => {
 	CoraUI.openSubmenu(arg);
 })
 
+exports('CloseMenu', (arg: any) => {
+	CoraUI.closeMenu();
+})
+
+exports('CloseSubmenu', (arg: any) => {
+	CoraUI.closeSubMenu();
+})
+
+exports('ResetMenu', (arg: any) => {
+	CoraUI.resetMenu();
+})
