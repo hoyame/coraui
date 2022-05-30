@@ -1,6 +1,8 @@
 # FiveM-CoraUI
 Library written in typescript to create menus on FiveM
 
+# Lua : https://github.com/hoyame/FiveM-CoraUI/tree/lua
+
 # Discord : https://discord.gg/Em3Fn9Amyv
 
 # Features
