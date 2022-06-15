@@ -28,6 +28,7 @@ interface ICMenu {
 	name: string;
 	subtitle: string;
 	glare: boolean;
+	closable?: (boolean | undefined)
 	submenus?: any;
 	buttons: IButtons[];
     
@@ -113,6 +114,7 @@ export class CoraUI {
 		name: "",
 		subtitle: "",
 		glare: false,
+		closable: true,
 		buttons: [],
 		submenus: {},
         heritagePanel: false,
@@ -123,6 +125,7 @@ export class CoraUI {
 		name: "",
 		subtitle: "",
 		glare: false,
+		closable: true,
 		buttons: [],
 		submenus: {},
         heritagePanel: false,
@@ -800,10 +803,12 @@ export class CoraUI {
 				);
 			}
 		} else if (IsControlJustPressed(0, 202)) {
+			const menu: ICMenu = this.CurrentMenu;
 			if (this.Menu.submenu[0] == true) {
 				this.closeSubMenu();
 			} else {
-				this.closeMenu();
+				const blockHandler = (): void => {  };
+				((menu.closable === true) || (menu.closable === undefined) ? this.closeMenu() : blockHandler);
 			}
 		} else if (IsControlJustPressed(0, 174)) {
 
@@ -986,21 +991,14 @@ export class CoraUI {
 			name: "",
 			subtitle: "",
 			glare: false,
+			closable: true,
 			buttons: [],
 			submenus: {},
             heritagePanel: false,
             indexHeritagePanel: [0, 0, 0, 0]
 		};
 
-		this.CurrentMenu = {
-			name: "",
-			subtitle: "",
-			glare: false,
-			buttons: [],
-			submenus: {},
-            heritagePanel: false,
-            indexHeritagePanel: [0, 0, 0, 0]
-		};
+		this.CurrentMenu = this.Temp;
 	}
 
     public static updateIndexHeritagePanel(i: number, c: number) {
