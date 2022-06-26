@@ -37,6 +37,7 @@ interface ICMenu {
 }
 
 let init = true;
+let tick: any;
 
 export class CoraUI {
 	static Config = {
@@ -981,7 +982,12 @@ export class CoraUI {
 		this.Menu.Opened = true;
 		this.CurrentMenu = obj;
 		this.Temp = obj;
-		this.drawMenu();
+		
+		if (tick) clearTick(tick);
+		tick = setTick(() => {
+			if (!this.Menu.Opened) clearTick(tick);
+			this.drawMenu();
+		});
 	}
 
 	public static resetMenu() {
@@ -1012,12 +1018,6 @@ export class CoraUI {
 		this.Menu.Opened = false;
 	}
 }
-
-setTick(() => {
-	if (CoraUI.Menu.Opened) {
-		CoraUI.drawMenu();
-	}
-});
 
 exports('CreateMenu', (arg: any) => {
 	CoraUI.openMenu(arg);
