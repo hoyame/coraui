@@ -36,22 +36,22 @@ CoraUI.openMenu({
         name: "Glace", onClick: () => null, 
 				slider: ["Chocolat", "Vanille", "Rien"]
       },
-      { name: 'Test', onClick: () => CoraUI.openSubmenu('zebi')},
+      { name: 'Test', onClick: () => CoraUI.openSubmenu('submenu')},
       { name: 'Test 2', onClick: () => CoraUI.openSubmenu('amona')},
       { name: 'Close menu', rightText: "~g~100 000 $", onClick: () => CoraUI.closeMenu()},
   ],
   submenus: {
-    'zebi': {
-      name: 'Submenu Zebi F5',
+    'submenu': {
+      name: 'Submenu F5',
       subtitle: "",
       glare: true, 
       buttons: [
-        { name: 'Zebi', onClick: () => null},
+        { name: 'Button 1', onClick: () => null},
       ],
     },
 
     'amona': {
-      name: 'Submenu Amonaguyem F5',
+      name: 'Submenu F5',
       subtitle: "",
       glare: true, 
       buttons: [
